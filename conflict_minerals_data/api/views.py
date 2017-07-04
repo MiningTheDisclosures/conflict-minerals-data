@@ -1,14 +1,22 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
+from rest_framework_bulk import ListBulkCreateUpdateDestroyAPIView
 
-from .models import (
-    EdgarCompanyInfo,
+from .models import EdgarCompanyInfo
+from .serializers import (
+    EdgarCompanyInfoSerializer,
+    EdgarCompanyListSerializer
 )
-from .serializers import EdgarCompanyInfoSerializer
 
 
-class EdgarCompanyInfoViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = EdgarCompanyInfo.objects.all().order_by('-date_joined')
+class CompanyInfoViewSet(viewsets.ModelViewSet):
+    # Complete CRUD
+    queryset = EdgarCompanyInfo.objects.all()
     serializer_class = EdgarCompanyInfoSerializer
+
+
+class CompanyListView(ListBulkCreateUpdateDestroyAPIView):
+    # Used for bulk changes
+
+    # Can be used for all kinds of changes - perhaps should be restricted to POST
+    queryset = EdgarCompanyInfo.objects.all()
+    serializer_class = EdgarCompanyListSerializer
