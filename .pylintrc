@@ -1,0 +1,4 @@
+[MESSAGES CONTROL]
+
+# message: 'F0002:<class 'AttributeError'>: 'Call' object has no attribute 'starargs''
+disable=F0002

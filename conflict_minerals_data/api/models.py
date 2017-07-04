@@ -16,8 +16,8 @@ class EdgarCompanyInfo(models.Model):
     class Meta:
         verbose_name_plural = 'Companies'
 
-    cik = models.CharField(max_length=200)
-    conformed_name = models.CharField(max_length=200)
+    cik = models.CharField(max_length=200, blank=True)
+    conformed_name = models.CharField(max_length=200, blank=True)
     ticker_symbol = models.CharField(max_length=10, blank=True)
 
     # Industry code
@@ -26,6 +26,10 @@ class EdgarCompanyInfo(models.Model):
 
     state_location = models.CharField(max_length=10, blank=True)
     state_of_incorporation = models.CharField(max_length=10, blank=True)
+
+    def clean(self):
+        if not self.cik or not self.ticker_symbol:
+            raise ValidationError('Must have CIK or Ticker Symbol at least')
 
 
 class EdgarSDFiling(models.Model):
