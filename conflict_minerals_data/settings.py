@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '+nm2t$7rz+jh3b7ybw*ab-$$tnegu&+ai_tvsip@fzv$0y7zxg'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', 'conflict-minerals-data.herokuapp.com']
 
 
 # Application definition
