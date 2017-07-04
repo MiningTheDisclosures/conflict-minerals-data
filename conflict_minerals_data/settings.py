@@ -144,3 +144,12 @@ REST_FRAMEWORK = {
     ],
     'PAGE_SIZE': 10
 }
+
+# ADMIN
+
+ADMINS = (('Sarah Bird', 'sarah@sarahbird.org'), )
+EMAIL_HOST = os.environ.get('MAILGUN_SMTP_SERVER')
+EMAIL_PORT = os.environ.get('MAILGUN_SMTP_PORT')
+EMAIL_HOST_USER = os.environ.get('MAILGUN_SMTP_LOGIN')
+EMAIL_HOST_PASSWORD = os.envion.get('MAILGUN_SMTP_PASSWORD')
+EMAIL_USE_TLS = True
