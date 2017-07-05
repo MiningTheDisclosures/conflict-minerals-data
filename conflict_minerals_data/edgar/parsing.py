@@ -6,12 +6,12 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 
 
-def get_feed_from_edgar(cik, sec_doc_type='SD'):
+def get_edgar_feed_url(search_item):
     base_url = "https://www.sec.gov/cgi-bin/browse-edgar"
     params = {
         'action': 'getcompany',
-        'CIK': cik,
-        'type': sec_doc_type,
+        'CIK': search_item,
+        'type': 'SD',
         'owner': 'exclude',
         'start': 0,
         'count': 40,
@@ -20,8 +20,7 @@ def get_feed_from_edgar(cik, sec_doc_type='SD'):
     req = requests.Request('GET', base_url, params=params)
     prepped = req.prepare()
     feed_url = prepped.url
-    feed = feedparser.parse(feed_url)
-    return feed
+    return feed_url
 
 
 def get_annual_sd_filings_from_cik(cik):
@@ -55,6 +54,7 @@ def get_meta_info_from_soup(soup):
     """
 
     # Company Name
+    import ipdb; ipdb.set_trace()
     company_info = soup.find(class_='companyInfo')
     company_name_cik = company_info.find(class_='companyName').text
     try:

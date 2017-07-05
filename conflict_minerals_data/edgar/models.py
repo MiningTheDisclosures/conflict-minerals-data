@@ -25,7 +25,6 @@ class EdgarCompanyInfo(models.Model):
     sic_description = models.CharField(max_length=200, blank=True)
 
     state_location = models.CharField(max_length=10, blank=True)
-    state_of_incorporation = models.CharField(max_length=10, blank=True)
 
     def clean(self):
         if not self.cik or not self.ticker_symbol:
@@ -41,6 +40,7 @@ class EdgarSDFiling(models.Model):
     accepted = models.DateTimeField()
     n_documents = models.PositiveIntegerField()
     sec_accession_number = models.CharField(max_length=200)
+    link = models.TextField()
 
 
 class EdgarSDFilingDocument(models.Model):
