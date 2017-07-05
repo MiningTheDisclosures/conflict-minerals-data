@@ -8,13 +8,13 @@ from .serializers import (
 )
 
 
-class CompanyInfoViewSet(viewsets.ModelViewSet):
+class EdgarCompanyInfoViewSet(viewsets.ModelViewSet):
     # Complete CRUD
     queryset = EdgarCompanyInfo.objects.all()
     serializer_class = EdgarCompanyInfoSerializer
 
 
-class CompanyListView(ListBulkCreateUpdateDestroyAPIView):
+class EdgarCompanyListView(ListBulkCreateUpdateDestroyAPIView):
     # Used for bulk changes
 
     # Can be used for all kinds of changes - perhaps should be restricted to POST

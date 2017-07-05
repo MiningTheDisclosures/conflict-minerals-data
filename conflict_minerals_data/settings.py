@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'conflict_minerals_data.api',
+    'conflict_minerals_data.edgar',
 ]
 
 MIDDLEWARE = [
@@ -68,7 +68,6 @@ TEMPLATES = [
         },
     },
 ]
-print(TEMPLATES)
 
 WSGI_APPLICATION = 'conflict_minerals_data.wsgi.application'
 
