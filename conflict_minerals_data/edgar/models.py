@@ -30,17 +30,37 @@ class EdgarCompanyInfo(models.Model):
         if not self.cik or not self.ticker_symbol:
             raise ValidationError('Must have CIK or Ticker Symbol at least')
 
+    def __str__(self):
+        return self.conformed_name
+
 
 class EdgarSDFiling(models.Model):
     class Meta:
+        verbose_name = 'SD Filing'
         verbose_name_plural = 'SD Filings'
 
-    company = models.ForeignKey(EdgarCompanyInfo, on_delete=models.CASCADE)
-    date = models.DateField()
-    accepted = models.DateTimeField()
-    n_documents = models.PositiveIntegerField()
+    company = models.ForeignKey(EdgarCompanyInfo, on_delete=models.CASCADE, blank=True, null=True)
+    date = models.DateField(blank=True, null=True, help_text='Filing Date')
+    accepted = models.DateTimeField(blank=True, null=True, help_text='Accepted Date')
     sec_accession_number = models.CharField(max_length=200)
-    link = models.TextField()
+    link = models.TextField(blank=True, null=True)
+
+    @classmethod
+    def get_or_create_from_feed_entry(cls, entry, company):
+        """
+        Note the typo in the feed keys 'accession-nunber'
+        """
+        assert entry.get('filing-type') == 'SD'
+        obj, _ = cls.objects.get_or_create(sec_accession_number=entry.get('accession-nunber'))
+        if obj.company:
+            # Test something hasn't gone wierd
+            assert obj.company == company
+        else:
+            obj.company = company
+        obj.date = entry.get('filing-date')
+        obj.accepted = entry.get('updated')
+        obj.link = entry.get('link')
+        return obj.save()
 
 
 class EdgarSDFilingDocument(models.Model):

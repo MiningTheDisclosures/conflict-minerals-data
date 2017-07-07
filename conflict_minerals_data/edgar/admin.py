@@ -71,9 +71,25 @@ def get_sd_filings_for_company(modeladmin, request, queryset):
         if not cik:
             continue
         feed = _make_request(cik)
-        # MAKE SD FILING PER ENTRY IN FEED
-    
+        for entry in feed.entries:
+            EdgarSDFiling.get_or_create_from_feed_entry(entry, company)
+
 get_sd_filings_for_company.short_description = 'Get SD filings for company'
+
+
+def update_company_info_and_sd_filings(modeladmin, request, queryset):
+    for company in queryset:
+        search = None
+        if company.ticker_symbol:
+            search = company.ticker_symbol
+        if company.cik:
+            search = company.cik
+        feed = _make_request(search)
+        company = _update_company_from_feed(company, feed)
+        company.save()
+        for entry in feed.entries:
+            EdgarSDFiling.get_or_create_from_feed_entry(entry, company)
+update_company_info_and_sd_filings.short_description = 'Update company info and SD filings'
 
 
 def pull_sd_filing_documents(modeladmin, request, queryset):
@@ -85,9 +101,10 @@ class CompanyAdmin(admin.ModelAdmin):
     list_display = ['conformed_name', 'ticker_symbol', 'cik']
     ordering = ['conformed_name']
     actions = [
-        pull_company_info_using_ticker, 
-        pull_company_info_using_cik,
-        get_sd_filings_for_company,
+        # pull_company_info_using_ticker, 
+        # pull_company_info_using_cik,
+        # get_sd_filings_for_company,
+        update_company_info_and_sd_filings,
     ]
 
 
@@ -95,7 +112,11 @@ class SearchAdmin(admin.ModelAdmin):
     list_display = ['description', 'date_accessed']
 
 
+class SDFilingAdmin(admin.ModelAdmin):
+    list_display = ['company', 'date']
+    ordering = ['company', '-date']
+
 admin.site.register(EdgarSearch, SearchAdmin)
 admin.site.register(EdgarCompanyInfo, CompanyAdmin)
-admin.site.register(EdgarSDFiling)
+admin.site.register(EdgarSDFiling, SDFilingAdmin)
 admin.site.register(EdgarSDFilingDocument)
