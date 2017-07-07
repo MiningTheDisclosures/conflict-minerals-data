@@ -50,7 +50,8 @@ class EdgarSDFiling(models.Model):
         """
         Note the typo in the feed keys 'accession-nunber'
         """
-        assert entry.get('filing-type') == 'SD'
+        if entry.get('filing-type') != 'SD':
+            return
         obj, _ = cls.objects.get_or_create(sec_accession_number=entry.get('accession-nunber'))
         if obj.company:
             # Test something hasn't gone wierd
