@@ -23,7 +23,7 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 SECRET_KEY = '+nm2t$7rz+jh3b7ybw*ab-$$tnegu&+ai_tvsip@fzv$0y7zxg'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', False)
+DEBUG = bool(os.environ.get('DEBUG', False))
 
 ALLOWED_HOSTS = ['localhost', 'conflict-minerals-data.herokuapp.com']
 
@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'conflict_minerals_data.edgar',
 ]
+
+if DEBUG == True:
+    INSTALLED_APPS = INSTALLED_APPS + ['django_extensions']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
