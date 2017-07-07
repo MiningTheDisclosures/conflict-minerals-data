@@ -16,7 +16,7 @@ from .parsing import (
 )
 
 def _wait_random_time():
-    sleep(randint(0, 5))
+    sleep(randint(0, 50)/100)
 
 def _make_request(search):
     url = get_edgar_feed_url(search)
