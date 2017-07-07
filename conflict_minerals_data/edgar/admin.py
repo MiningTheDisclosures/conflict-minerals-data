@@ -1,5 +1,7 @@
 import feedparser
 import json
+from random import randint
+from time import sleep
 from django.contrib import admin
 
 from .models import (
@@ -12,6 +14,9 @@ from .parsing import (
     get_edgar_feed_url,
     get_annual_sd_filings_from_cik,
 )
+
+def _wait_random_time():
+    sleep(randint(0, 5))
 
 def _make_request(search):
     url = get_edgar_feed_url(search)
@@ -45,6 +50,7 @@ def _update_company_from_feed(company, feed):
 
 def pull_company_info_using_ticker(modeladmin, request, queryset):
     for company in queryset:
+        _wait_random_time()
         ticker_id = company.ticker_symbol
         if not ticker_id:
             continue
@@ -56,6 +62,7 @@ pull_company_info_using_ticker.short_description = 'Get company info from EDGAR 
 
 def pull_company_info_using_cik(modeladmin, request, queryset):
     for company in queryset:
+        _wait_random_time()
         cik = company.cik
         if not cik:
             continue
@@ -67,6 +74,7 @@ pull_company_info_using_cik.short_description = 'Get company info from EDGAR (ci
 
 def get_sd_filings_for_company(modeladmin, request, queryset):
     for company in queryset:
+        _wait_random_time()
         cik = company.cik
         if not cik:
             continue
@@ -79,6 +87,7 @@ get_sd_filings_for_company.short_description = 'Get SD filings for company'
 
 def update_company_info_and_sd_filings(modeladmin, request, queryset):
     for company in queryset:
+        _wait_random_time()
         search = None
         if company.ticker_symbol:
             search = company.ticker_symbol
