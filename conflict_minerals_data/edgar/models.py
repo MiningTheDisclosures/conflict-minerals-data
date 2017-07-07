@@ -39,10 +39,15 @@ class EdgarSDFiling(models.Model):
         verbose_name = 'SD Filing'
         verbose_name_plural = 'SD Filings'
 
+    FILING_TYPE_CHOICES = (
+        ('SD', 'SD'),
+        ('SD/A', 'SD/A'),
+    )
+    filing_type = models.CharField(max_length=10, choices=FILING_TYPE_CHOICES)
+    sec_accession_number = models.CharField(max_length=200)
     company = models.ForeignKey(EdgarCompanyInfo, on_delete=models.CASCADE, blank=True, null=True)
     date = models.DateField(blank=True, null=True, help_text='Filing Date')
     accepted = models.DateTimeField(blank=True, null=True, help_text='Accepted Date')
-    sec_accession_number = models.CharField(max_length=200)
     link = models.TextField(blank=True, null=True)
 
     @classmethod
@@ -50,10 +55,15 @@ class EdgarSDFiling(models.Model):
         """
         Note the typo in the feed keys 'accession-nunber'
         """
-        assert entry.get('filing-type') == 'SD', 'Filing type was {0}. Entry: {1}. Company: {2}'.format(
-            entry.get('filing-type'), entry, company
+        filing_type = entry.get('filing-type')
+        filing_types = dict(cls.FILING_TYPE_CHOICES).keys() # Pulls the first values from the pairs into a list
+        assert filing_type in filing_types, 'Filing type was {0}. Company: {2}. Entry: {1}'.format(
+            filing_type, entry, company
         )
-        obj, _ = cls.objects.get_or_create(sec_accession_number=entry.get('accession-nunber'))
+        obj, _ = cls.objects.get_or_create(
+            filing_type=filing_type,
+            sec_accession_number=entry.get('accession-nunber')
+        )
         if obj.company:
             # Test something hasn't gone wierd
             assert obj.company == company, 'Mismatched Company. obj.company = {0}. company = {1}|{2}'.format(

@@ -122,7 +122,7 @@ class SearchAdmin(admin.ModelAdmin):
 
 
 class SDFilingAdmin(admin.ModelAdmin):
-    list_display = ['company', 'date']
+    list_display = ['company', 'date', 'filing_type', 'sec_accession_number']
     ordering = ['company', '-date']
 
 admin.site.register(EdgarSearch, SearchAdmin)
