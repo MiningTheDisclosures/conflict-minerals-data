@@ -16,7 +16,7 @@ class EdgarCompanyInfo(models.Model):
     class Meta:
         verbose_name_plural = 'Companies'
 
-    cik = models.CharField(max_length=200, blank=True)
+    cik = models.CharField(max_length=200, blank=True, unique=True)
     conformed_name = models.CharField(max_length=200, blank=True)
     ticker_symbol = models.CharField(max_length=10, blank=True)
 
