@@ -101,9 +101,9 @@ class CompanyAdmin(admin.ModelAdmin):
     list_display = ['conformed_name', 'ticker_symbol', 'cik']
     ordering = ['conformed_name']
     actions = [
-        # pull_company_info_using_ticker, 
-        # pull_company_info_using_cik,
-        # get_sd_filings_for_company,
+        pull_company_info_using_ticker, 
+        pull_company_info_using_cik,
+        get_sd_filings_for_company,
         update_company_info_and_sd_filings,
     ]
 
