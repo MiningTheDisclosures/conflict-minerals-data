@@ -50,6 +50,10 @@ class EdgarSDFiling(models.Model):
     accepted = models.DateTimeField(blank=True, null=True, help_text='Accepted Date')
     link = models.TextField(blank=True, null=True)
 
+    @property
+    def year(self):
+        return self.date.year
+
     @classmethod
     def get_or_create_from_feed_entry(cls, entry, company):
         """

@@ -122,8 +122,9 @@ class SearchAdmin(admin.ModelAdmin):
 
 
 class SDFilingAdmin(admin.ModelAdmin):
-    list_display = ['company', 'date', 'filing_type', 'sec_accession_number']
-    ordering = ['company', '-date']
+    list_display = ['company', 'year', 'filing_type', 'sec_accession_number']
+    ordering = ['company__conformed_name', '-date']
+    list_filter = ['company__conformed_name']
 
 admin.site.register(EdgarSearch, SearchAdmin)
 admin.site.register(EdgarCompanyInfo, CompanyAdmin)
