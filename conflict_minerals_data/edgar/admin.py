@@ -1,5 +1,6 @@
 import feedparser
 import json
+import requests
 from random import randint
 from time import sleep
 from django.contrib import admin
@@ -10,16 +11,27 @@ from .models import (
     EdgarSDFiling,
     EdgarSDFilingDocument,
 )
-from .parsing import (
-    get_edgar_feed_url,
-    get_annual_sd_filings_from_cik,
-)
-
 def _wait_random_time():
     sleep(randint(0, 50)/100)
 
-def _make_request(search):
-    url = get_edgar_feed_url(search)
+def _get_edgar_feed_url(search_item):
+    base_url = "https://www.sec.gov/cgi-bin/browse-edgar"
+    params = {
+        'action': 'getcompany',
+        'CIK': search_item,
+        'type': 'SD',
+        'owner': 'exclude',
+        'start': 0,
+        'count': 40,
+        'output': 'atom',
+    }
+    req = requests.Request('GET', base_url, params=params)
+    prepped = req.prepare()
+    feed_url = prepped.url
+    return feed_url
+
+def _make_feed_request(search):
+    url = _get_edgar_feed_url(search)
     feed = feedparser.parse(url)
     EdgarSearch.objects.create(
         description='SD Feed for populating company {0}'.format(search),
@@ -27,6 +39,17 @@ def _make_request(search):
         response=json.dumps(feed, indent=4)
     )
     return feed
+
+
+def _make_page_request(url):
+    response = requests.get(url)
+    EdgarSearch.objects.create(
+        description='Get SD Page',
+        request=url,
+        response=response.content
+    )
+    return response
+
 
 def _update_company_from_feed(company, feed):
     meta = feed['feed']
@@ -54,7 +77,7 @@ def pull_company_info_using_ticker(modeladmin, request, queryset):
         ticker_id = company.ticker_symbol
         if not ticker_id:
             continue
-        feed = _make_request(ticker_id)
+        feed = _make_feed_request(ticker_id)
         company = _update_company_from_feed(company, feed)
         company.save()
 pull_company_info_using_ticker.short_description = 'Get company info from EDGAR (ticker)'
@@ -66,7 +89,7 @@ def pull_company_info_using_cik(modeladmin, request, queryset):
         cik = company.cik
         if not cik:
             continue
-        feed = _make_request(cik)
+        feed = _make_feed_request(cik)
         company = _update_company_from_feed(company, feed)
         company.save()
 pull_company_info_using_cik.short_description = 'Get company info from EDGAR (cik)'
@@ -78,7 +101,7 @@ def get_sd_filings_for_company(modeladmin, request, queryset):
         cik = company.cik
         if not cik:
             continue
-        feed = _make_request(cik)
+        feed = _make_feed_request(cik)
         for entry in feed.entries:
             EdgarSDFiling.get_or_create_from_feed_entry(entry, company)
 
@@ -93,7 +116,7 @@ def update_company_info_and_sd_filings(modeladmin, request, queryset):
             search = company.ticker_symbol
         if company.cik:
             search = company.cik
-        feed = _make_request(search)
+        feed = _make_feed_request(search)
         company = _update_company_from_feed(company, feed)
         company.save()
         for entry in feed.entries:
@@ -102,7 +125,13 @@ update_company_info_and_sd_filings.short_description = 'Update company info and 
 
 
 def pull_sd_filing_documents(modeladmin, request, queryset):
-    pass
+    for filing in queryset:
+        _wait_random_time()
+        response = _make_page_request(filing.link)
+        assert response.status_code == 200
+        soupy_documents = EdgarSDFiling.get_document_soup_from_page(response.content)
+        for row in soupy_documents[1:]: # Ignore the first header row
+            EdgarSDFilingDocument.get_or_create_from_table_row(row, filing)
 pull_sd_filing_documents.short_description = 'Pull SD filing documents'
 
 
@@ -125,6 +154,10 @@ class SDFilingAdmin(admin.ModelAdmin):
     list_display = ['company', 'year', 'filing_type', 'sec_accession_number']
     ordering = ['company__conformed_name', '-date']
     list_filter = ['company__conformed_name']
+
+    actions = [
+        pull_sd_filing_documents,
+    ]
 
 admin.site.register(EdgarSearch, SearchAdmin)
 admin.site.register(EdgarCompanyInfo, CompanyAdmin)

@@ -1,6 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 
+from bs4 import BeautifulSoup
 
 class EdgarSearch(models.Model):
     class Meta:
@@ -85,6 +86,24 @@ class EdgarSDFiling(models.Model):
         obj.link = entry.get('link')
         return obj.save()
 
+    @classmethod
+    def get_document_soup_from_page(cls, page):
+        """
+        page is requests.Response.content
+        """
+        soup = BeautifulSoup(page, 'html.parser')
+        # Get only one table
+        table_attrs = dict(summary='Document Format Files')
+        assert len(soup.find_all('table', attrs=table_attrs)) == 1, 'Wrong number of Tables'
+        table = soup.find('table', attrs=table_attrs)
+        # Check the header row (note order is important)
+        header_values = ['Seq', 'Description', 'Document', 'Type', 'Size']
+        headers = table.findChildren('th')
+        for i, header in enumerate(headers):
+            assert header.text == header_values[i]
+        # Return Document Rows
+        return table.findChildren('tr')
+
 
 class EdgarSDFilingDocument(models.Model):
     class Meta:
@@ -98,6 +117,35 @@ class EdgarSDFilingDocument(models.Model):
     doc_name = models.CharField(max_length=200)
     doc_url = models.TextField()
     doc_format = models.CharField(max_length=10)
+
+    def __str__(self):
+        return '{filing} - {name}'.format(filing=self.filing, name=self.doc_name)
+
+    @classmethod
+    def get_or_create_from_table_row(cls, row, filing):
+        """
+        Note the typo in the feed keys 'accession-nunber'
+        """
+        seq = 0
+        description = '0'
+        doc_type = 'SD'
+        doc_size = 0
+        doc_name = '0.txt'
+        doc_url = '0'
+        doc_format = doc_name.split('.')[-1]
+        obj, _ = cls.objects.get_or_create(
+            filing=filing,
+            description=description,
+            doc_size=doc_size,
+            doc_name=doc_name,
+            doc_url=doc_url,
+            doc_format=doc_format
+        )
+        if doc_type:
+            obj.doc_type = doc_type
+        if seq:
+            obj.seq = seq
+        return obj.save()
 
 
 class EdgarDocumentContent(models.Model):
