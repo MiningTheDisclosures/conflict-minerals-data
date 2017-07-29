@@ -50,6 +50,11 @@ class EdgarSDFiling(models.Model):
     accepted = models.DateTimeField(blank=True, null=True, help_text='Accepted Date')
     link = models.TextField(blank=True, null=True)
 
+    def __str__(self):
+        return '{company} - {date:%Y} ({type})'.format(
+            type=self.filing_type, date=self.date, company=self.company
+        )
+
     @property
     def year(self):
         return self.date.year
