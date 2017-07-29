@@ -130,7 +130,7 @@ def pull_sd_filing_documents(modeladmin, request, queryset):
         response = _make_page_request(filing.link)
         assert response.status_code == 200
         soupy_documents = EdgarSDFiling.get_document_soup_from_page(response.content)
-        for row in soupy_documents[1:]: # Ignore the first header row
+        for row in soupy_documents:
             EdgarSDFilingDocument.get_or_create_from_table_row(row, filing)
 pull_sd_filing_documents.short_description = 'Pull SD filing documents'
 

@@ -101,8 +101,8 @@ class EdgarSDFiling(models.Model):
         headers = table.findChildren('th')
         for i, header in enumerate(headers):
             assert header.text == header_values[i]
-        # Return Document Rows
-        return table.findChildren('tr')
+        # Return Table Rows (but not header row)
+        return table.findChildren('tr')[1:]  
 
 
 class EdgarSDFilingDocument(models.Model):
@@ -124,27 +124,30 @@ class EdgarSDFilingDocument(models.Model):
     @classmethod
     def get_or_create_from_table_row(cls, row, filing):
         """
-        Note the typo in the feed keys 'accession-nunber'
+        We just know the order of the data - see the check of the header values in
+        EdgarSDFiling.get_document_soup_from_page
+        ['Seq', 'Description', 'Document', 'Type', 'Size']
         """
-        seq = 0
-        description = '0'
-        doc_type = 'SD'
-        doc_size = 0
-        doc_name = '0.txt'
-        doc_url = '0'
+        base_url = 'https://www.sec.gov'
+        cells = row.findChildren('td')
+        seq = cells[0].get_text(strip=True)
+        description = cells[1].get_text()
+        doc_name = cells[2].a.get_text()
+        doc_url = cells[2].a.attrs['href']
+        doc_type = cells[3].get_text()
+        doc_size = int(cells[4].get_text())
         doc_format = doc_name.split('.')[-1]
         obj, _ = cls.objects.get_or_create(
             filing=filing,
             description=description,
             doc_size=doc_size,
             doc_name=doc_name,
-            doc_url=doc_url,
-            doc_format=doc_format
+            doc_url='{base}/{doc}'.format(base=base_url, doc=doc_url),
+            doc_format=doc_format,
+            doc_type=doc_type,
         )
-        if doc_type:
-            obj.doc_type = doc_type
         if seq:
-            obj.seq = seq
+            obj.seq = int(seq)
         return obj.save()
 
 
