@@ -1,8 +1,11 @@
 import feedparser
 import json
 import requests
+
 from random import randint
 from time import sleep
+
+from channels import Channel
 from django.contrib import admin
 
 from .models import (
@@ -97,6 +100,10 @@ pull_company_info_using_cik.short_description = 'Get company info from EDGAR (ci
 
 def get_sd_filings_for_company(modeladmin, request, queryset):
     for company in queryset:
+        message = {
+            'company': company.pk
+        }
+        Channel('test').send(message)
         _wait_random_time()
         cik = company.cik
         if not cik:
