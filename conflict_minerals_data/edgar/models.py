@@ -168,6 +168,6 @@ class EdgarDocumentContent(models.Model):
     @property
     def content(self):
         if self.binary:
-            return binary
+            return self.binary
         elif self.text:
-            return text
+            return self.text
