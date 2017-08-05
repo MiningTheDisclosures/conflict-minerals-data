@@ -37,11 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
     'rest_framework',
     'conflict_minerals_data.edgar',
 ]
 
-if DEBUG == True:
+if DEBUG is True:
     INSTALLED_APPS = INSTALLED_APPS + ['django_extensions']
 
 MIDDLEWARE = [
@@ -88,8 +89,8 @@ DATABASES = {
 }
 if os.environ.get('DATABASE_URL'):
     import dj_database_url
-    db_from_env = dj_database_url.config(conn_max_age=500)
-    DATABASES['default'].update(db_from_env)
+    DB_FROM_ENV = dj_database_url.config(conn_max_age=500)
+    DATABASES['default'].update(DB_FROM_ENV)
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -155,3 +156,14 @@ EMAIL_HOST_USER = os.environ.get('MAILGUN_SMTP_LOGIN')
 EMAIL_HOST_PASSWORD = os.environ.get('MAILGUN_SMTP_PASSWORD')
 EMAIL_USE_TLS = True
 SERVER_EMAIL = 'admin@conflict-minerals-data.herokuapp.com'
+
+# CHANNELS
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "asgi_redis.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
+        },
+        "ROUTING": "conflict_minerals_data.routing.CHANNEL_ROUTING",
+    },
+}
