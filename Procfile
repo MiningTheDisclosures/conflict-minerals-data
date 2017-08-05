@@ -1,2 +1,3 @@
 release: python manage.py migrate
-web: gunicorn conflict_minerals_data.wsgi
+web: daphne conflict_minerals_data.asgi:channel_layer --port $PORT --bind 0.0.0.0 -v2
+worker: python manage.py runworker -v2
