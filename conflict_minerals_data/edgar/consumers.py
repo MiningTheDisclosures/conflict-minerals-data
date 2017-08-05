@@ -14,7 +14,7 @@ from .models import (
 
 
 def _wait_random_time():
-    sleep(randint(0, 50)/100)
+    sleep(randint(0, 500)/100)
 
 
 def _get_edgar_feed_url(search_item):
