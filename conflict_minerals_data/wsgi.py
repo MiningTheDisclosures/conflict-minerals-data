@@ -16,4 +16,3 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "conflict_minerals_data.settings
 
 application = get_wsgi_application()
 application = DjangoWhiteNoise(application)
-
