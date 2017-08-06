@@ -77,7 +77,7 @@ def _update_company_from_feed(company, feed):
 
 
 def _get_companies_from_message(message):
-    companies = EdgarCompanyInfo.objects.get(pk__in=message.content.get('pks'))
+    companies = EdgarCompanyInfo.objects.filter(pk__in=message.content.get('pks'))
     return companies
 
 
