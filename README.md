@@ -21,4 +21,5 @@ $ python manage.py runserver
 http://localhost:8888/companies-bulk/
 
 Paste in things from data files.
-Use dropdown type "application/x-www-form-encoded"
+Use dropdown type "application/json"
+Things get very unhappy when you only have cik - use cik and arbitrary conformed_name and all is well
