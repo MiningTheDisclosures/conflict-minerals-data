@@ -41,6 +41,11 @@ def pull_sd_filing_documents(_modeladmin, _request, queryset):
 pull_sd_filing_documents.short_description = 'Pull SD filing documents'
 
 
+def get_sd_filing_document_contents(_modeladmin, _request, queryset):
+    _send_message(queryset, 'edgar.get-sd-filing-document-contents')
+get_sd_filing_document_contents.short_description = 'Get document contents'
+
+
 class CompanyAdmin(admin.ModelAdmin):
     list_display = ['conformed_name', 'ticker_symbol', 'cik']
     ordering = ['conformed_name']
@@ -65,8 +70,18 @@ class SDFilingAdmin(admin.ModelAdmin):
         pull_sd_filing_documents,
     ]
 
+
+class SDFilingDocumentAdmin(admin.ModelAdmin):
+    actions = [
+        get_sd_filing_document_contents
+    ]
+
+class EdgarDocumentContentAdmin(admin.ModelAdmin):
+    actions = [
+    ]
+
 admin.site.register(EdgarSearch, SearchAdmin)
 admin.site.register(EdgarCompanyInfo, CompanyAdmin)
 admin.site.register(EdgarSDFiling, SDFilingAdmin)
-admin.site.register(EdgarSDFilingDocument)
-admin.site.register(EdgarDocumentContent)
+admin.site.register(EdgarSDFilingDocument, SDFilingDocumentAdmin)
+admin.site.register(EdgarDocumentContent, EdgarDocumentContentAdmin)

@@ -10,6 +10,7 @@ from .models import (
     EdgarCompanyInfo,
     EdgarSDFiling,
     EdgarSDFilingDocument,
+    EdgarDocumentContent,
 )
 
 
@@ -144,3 +145,17 @@ def pull_sd_filing_documents(message):
         soupy_documents = EdgarSDFiling.get_document_soup_from_page(response.content)
         for row in soupy_documents:
             EdgarSDFilingDocument.get_or_create_from_table_row(row, filing)
+
+
+def get_sd_filing_document_contents(message):
+    for pk in message.content.get('pks', []):
+        doc = EdgarSDFilingDocument.objects.get(pk=pk)
+        print(doc)
+        if doc.doc_format in ['htm', 'html', 'txt']:
+            # Not handling binary types for now
+            _wait_random_time()
+            response = _make_page_request(doc.doc_url)
+            assert response.status_code == 200
+            content, _ = EdgarDocumentContent.objects.get_or_create(document=doc)
+            content.text = response.content
+            content.save()

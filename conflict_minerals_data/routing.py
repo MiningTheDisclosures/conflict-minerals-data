@@ -7,7 +7,8 @@ from conflict_minerals_data.edgar.consumers import (
     pull_company_info_using_cik,
     get_sd_filings_for_company,
     update_company_info_and_sd_filings,
-    pull_sd_filing_documents
+    pull_sd_filing_documents,
+    get_sd_filing_document_contents,
 )
 
 CHANNEL_ROUTING = [
@@ -16,4 +17,5 @@ CHANNEL_ROUTING = [
     route('edgar.get-sd-filings-for-company', get_sd_filings_for_company),
     route('edgar.update-company-info-and-sd-filings', update_company_info_and_sd_filings),
     route('edgar.pull-sd-filing-documents', pull_sd_filing_documents),
+    route('edgar.get-sd-filing-document-contents', get_sd_filing_document_contents),
 ]
