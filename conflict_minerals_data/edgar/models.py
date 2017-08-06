@@ -159,6 +159,9 @@ class EdgarDocumentContent(models.Model):
     binary = models.BinaryField(blank=True, null=True)
     text = models.TextField(blank=True)
 
+    def __str__(self):
+        return self.document.doc_name
+
     def clean(self):
         if self.binary and self.text:
             raise ValidationError('Can only store one type of content')

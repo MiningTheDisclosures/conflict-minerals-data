@@ -6,6 +6,7 @@ from .models import (
     EdgarCompanyInfo,
     EdgarSDFiling,
     EdgarSDFilingDocument,
+    EdgarDocumentContent,
 )
 
 
@@ -68,3 +69,4 @@ admin.site.register(EdgarSearch, SearchAdmin)
 admin.site.register(EdgarCompanyInfo, CompanyAdmin)
 admin.site.register(EdgarSDFiling, SDFilingAdmin)
 admin.site.register(EdgarSDFilingDocument)
+admin.site.register(EdgarDocumentContent)
