@@ -84,6 +84,7 @@ def _get_companies_from_message(message):
 def pull_company_info_using_ticker(message):
     companies = _get_companies_from_message(message)
     for company in companies:
+        print(company)
         _wait_random_time()
         ticker_id = company.ticker_symbol
         if ticker_id:
@@ -95,6 +96,7 @@ def pull_company_info_using_ticker(message):
 def pull_company_info_using_cik(message):
     companies = _get_companies_from_message(message)
     for company in companies:
+        print(company)
         _wait_random_time()
         cik = company.cik
         if cik:
@@ -106,6 +108,7 @@ def pull_company_info_using_cik(message):
 def get_sd_filings_for_company(message):
     companies = _get_companies_from_message(message)
     for company in companies:
+        print(company)
         _wait_random_time()
         cik = company.cik
         if cik:
@@ -117,6 +120,7 @@ def get_sd_filings_for_company(message):
 def update_company_info_and_sd_filings(message):
     companies = _get_companies_from_message(message)
     for company in companies:
+        print(company)
         _wait_random_time()
         search = None
         if company.ticker_symbol:
@@ -133,6 +137,7 @@ def update_company_info_and_sd_filings(message):
 def pull_sd_filing_documents(message):
     for pk in message.content.get('pks', []):
         filing = EdgarSDFiling.objects.get(pk=pk)
+        print(filing)
         _wait_random_time()
         response = _make_page_request(filing.link)
         assert response.status_code == 200
