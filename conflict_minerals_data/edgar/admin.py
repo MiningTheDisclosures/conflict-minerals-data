@@ -10,7 +10,7 @@ from .models import (
 
 
 def _send_message(queryset, channel_name):
-    batch_size = 30
+    batch_size = 100
     total = queryset.count()
     for i in range(0, total, batch_size):  # Batches of 30 taking 15s on average each
         batch = queryset[i: i + batch_size]
