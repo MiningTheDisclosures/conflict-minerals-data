@@ -14,7 +14,8 @@ from .models import (
 
 
 def _wait_random_time():
-    sleep(randint(0, 500)/100)
+    # Average of 0.5s wait
+    sleep(randint(0, 100)/100)
 
 
 def _get_edgar_feed_url(search_item):
@@ -75,61 +76,66 @@ def _update_company_from_feed(company, feed):
     return company
 
 
-def _get_company_from_message(message):
-    company = EdgarCompanyInfo.objects.get(pk=message.content.get('pk'))
-    return company
+def _get_companies_from_message(message):
+    companies = EdgarCompanyInfo.objects.get(pk__in=message.content.get('pks'))
+    return companies
 
 
 def pull_company_info_using_ticker(message):
-    company = _get_company_from_message(message)
-    _wait_random_time()
-    ticker_id = company.ticker_symbol
-    if ticker_id:
-        feed = _make_feed_request(ticker_id)
-        company = _update_company_from_feed(company, feed)
-        company.save()
+    companies = _get_companies_from_message(message)
+    for company in companies:
+        _wait_random_time()
+        ticker_id = company.ticker_symbol
+        if ticker_id:
+            feed = _make_feed_request(ticker_id)
+            company = _update_company_from_feed(company, feed)
+            company.save()
 
 
 def pull_company_info_using_cik(message):
-    company = _get_company_from_message(message)
-    _wait_random_time()
-    cik = company.cik
-    if cik:
-        feed = _make_feed_request(cik)
-        company = _update_company_from_feed(company, feed)
-        company.save()
+    companies = _get_companies_from_message(message)
+    for company in companies:
+        _wait_random_time()
+        cik = company.cik
+        if cik:
+            feed = _make_feed_request(cik)
+            company = _update_company_from_feed(company, feed)
+            company.save()
 
 
 def get_sd_filings_for_company(message):
-    company = _get_company_from_message(message)
-    _wait_random_time()
-    cik = company.cik
-    if cik:
-        feed = _make_feed_request(cik)
+    companies = _get_companies_from_message(message)
+    for company in companies:
+        _wait_random_time()
+        cik = company.cik
+        if cik:
+            feed = _make_feed_request(cik)
+            for entry in feed.entries:
+                EdgarSDFiling.get_or_create_from_feed_entry(entry, company)
+
+
+def update_company_info_and_sd_filings(message):
+    companies = _get_companies_from_message(message)
+    for company in companies:
+        _wait_random_time()
+        search = None
+        if company.ticker_symbol:
+            search = company.ticker_symbol
+        if company.cik:
+            search = company.cik
+        feed = _make_feed_request(search)
+        company = _update_company_from_feed(company, feed)
+        company.save()
         for entry in feed.entries:
             EdgarSDFiling.get_or_create_from_feed_entry(entry, company)
 
 
-def update_company_info_and_sd_filings(message):
-    company = _get_company_from_message(message)
-    _wait_random_time()
-    search = None
-    if company.ticker_symbol:
-        search = company.ticker_symbol
-    if company.cik:
-        search = company.cik
-    feed = _make_feed_request(search)
-    company = _update_company_from_feed(company, feed)
-    company.save()
-    for entry in feed.entries:
-        EdgarSDFiling.get_or_create_from_feed_entry(entry, company)
-
-
 def pull_sd_filing_documents(message):
-    filing = EdgarSDFiling.objects.get(pk=message.content.get('pk'))
-    _wait_random_time()
-    response = _make_page_request(filing.link)
-    assert response.status_code == 200
-    soupy_documents = EdgarSDFiling.get_document_soup_from_page(response.content)
-    for row in soupy_documents:
-        EdgarSDFilingDocument.get_or_create_from_table_row(row, filing)
+    for pk in message.content.get('pks', []):
+        filing = EdgarSDFiling.objects.get(pk=pk)
+        _wait_random_time()
+        response = _make_page_request(filing.link)
+        assert response.status_code == 200
+        soupy_documents = EdgarSDFiling.get_document_soup_from_page(response.content)
+        for row in soupy_documents:
+            EdgarSDFilingDocument.get_or_create_from_table_row(row, filing)
