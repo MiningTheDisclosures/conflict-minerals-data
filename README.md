@@ -17,6 +17,9 @@ $ pip install -r requirements.txt
 $ python manage.py migrate
 $ python manage.py runserver
 
+## frontend
+yarn-y, webpacky stuff
+
 # bulk import
 http://localhost:8888/companies-bulk/
 
