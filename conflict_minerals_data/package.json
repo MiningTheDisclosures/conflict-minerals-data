@@ -6,5 +6,8 @@
   "dependencies": {},
   "devDependencies": {
     "webpack": "^3.4.1"
+  },
+  "scripts": {
+    "build": "webpack"
   }
 }
