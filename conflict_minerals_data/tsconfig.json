@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "noEmitOnError": true,
+    "noUnusedLocals": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "./static",
+    "strictNullChecks": true,
+    "target": "ES5",
+    "jsx": "react"
+  }
+}

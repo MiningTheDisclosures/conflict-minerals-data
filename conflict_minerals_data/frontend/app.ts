@@ -1,7 +1,7 @@
 import './style.css';
 
-function component() {
-  var element = document.createElement('div');
+let component = () => {
+  let element = document.createElement('div');
 
   element.innerHTML = 'Hello world';
   element.classList.add('hello');
