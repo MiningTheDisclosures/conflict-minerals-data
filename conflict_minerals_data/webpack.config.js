@@ -44,5 +44,8 @@ module.exports = {
       root('./frontend'),
       {} // a map of your routes
     )
-  ]
+  ],
+  watchOptions: {
+    ignored: [/node_modules/, /static/]
+  }
 };

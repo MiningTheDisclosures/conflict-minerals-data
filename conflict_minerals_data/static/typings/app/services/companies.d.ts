@@ -4,6 +4,6 @@ export declare class CompaniesService {
     private http;
     private apiURL;
     constructor(http: Http);
-    getCompanies(): Promise<any[]>;
+    getCompanies(): Promise<any>;
     private handleError(error);
 }

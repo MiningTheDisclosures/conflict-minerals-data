@@ -2,30 +2,16 @@ import {
   Component 
 } from '@angular/core';
 
-import { 
-  CompaniesService 
-} from './services/companies';
-
 @Component({
   selector: 'my-app',
   template: `
   <header>Conflict Minerals Data</header>
-  <main></main>
+  <nav>
+      <a routerLink="/companies-by-year/2017" routerLinkActive="active">2017</a>
+  </nav>
+  <router-outlet></router-outlet>
   `,
-  providers: [CompaniesService]
 })
+
 export 
-class AppComponent { 
- 
-  constructor(private companiesService: CompaniesService) { }
-  companies: any[]
- 
-  getCompanies(): void {
-    this.companiesService.getCompanies().then(companies => this.companies = companies);
-  }
- 
-  ngOnInit(): void {
-    this.getCompanies();
-  }
- 
-}
+class AppComponent { }

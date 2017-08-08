@@ -6,9 +6,10 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class CompaniesService {
   private apiURL = '/api/companies';
+
   constructor(private http: Http) { }
 
-  getCompanies(): Promise<any[]> {
+  getCompanies(): Promise<any> {
     return this.http.get(this.apiURL)
         .toPromise()
         .then(response => response.json())
