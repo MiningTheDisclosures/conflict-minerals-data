@@ -78,6 +78,7 @@ function component() {
 
   element.innerHTML = 'Hello world';
   element.classList.add('hello');
+  element.classList.add('world');
   return element;
 }
 
@@ -125,7 +126,7 @@ exports = module.exports = __webpack_require__(3)(undefined);
 
 
 // module
-exports.push([module.i, ".hello {\n  color: red;\n}\n", ""]);
+exports.push([module.i, ".hello {\n  color: red;\n}\n\n.world {\n  font-size: 24px;\n}\n", ""]);
 
 // exports
 

@@ -5,6 +5,7 @@ function component() {
 
   element.innerHTML = 'Hello world';
   element.classList.add('hello');
+  element.classList.add('world');
   return element;
 }
 
