@@ -1,9 +1,19 @@
+var webpack = require('webpack');
+
 const path = require('path');
 
+var _root = path.resolve(__dirname);
+function root(args) {
+  args = Array.prototype.slice.call(arguments, 0);
+  return path.join.apply(path, [_root].concat(args));
+}
+
 module.exports = {
-  entry: './frontend/app.ts',
+  entry: {
+    app: './frontend/index.ts',
+  },
   output: {
-    filename: 'app.js',
+    filename: 'index.js',
     path: path.resolve(__dirname, 'static')
   },
   module: {
@@ -24,6 +34,15 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"]
+    extensions: [".tsx", ".ts", ".js"],
   },
+  plugins: [
+    // Workaround for angular/angular#11580
+    new webpack.ContextReplacementPlugin(
+      // The (\\|\/) piece accounts for path separators in *nix and Windows
+      /angular(\\|\/)core(\\|\/)@angular/,
+      root('./frontend'),
+      {} // a map of your routes
+    )
+  ]
 };
