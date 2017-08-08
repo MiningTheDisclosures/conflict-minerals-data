@@ -28058,6 +28058,11 @@ __webpack_require__(35);
 var platform_browser_dynamic_1 = __webpack_require__(37);
 var app_module_1 = __webpack_require__(49);
 platform_browser_dynamic_1.platformBrowserDynamic().bootstrapModule(app_module_1.AppModule);
+var core_1 = __webpack_require__(2);
+// Enable production mode unless running locally
+if (!/localhost/.test(document.location.host)) {
+    core_1.enableProdMode();
+}
 
 
 /***/ }),
@@ -60781,8 +60786,7 @@ var AppModule = (function () {
             imports: [
                 platform_browser_1.BrowserModule,
                 http_1.HttpModule,
-                router_1.RouterModule.forRoot(appRoutes, { enableTracing: true } // <-- debugging purposes only
-                )
+                router_1.RouterModule.forRoot(appRoutes)
             ],
             declarations: [
                 app_component_1.AppComponent,
