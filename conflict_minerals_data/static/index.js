@@ -28055,13 +28055,8 @@ exports.MergeMapSubscriber = MergeMapSubscriber;
 Object.defineProperty(exports, "__esModule", { value: true });
 __webpack_require__(34);
 __webpack_require__(35);
-var core_1 = __webpack_require__(2);
 var platform_browser_dynamic_1 = __webpack_require__(37);
 var app_module_1 = __webpack_require__(49);
-// Enable production mode unless running locally
-if (!/localhost/.test(document.location.host)) {
-    core_1.enableProdMode();
-}
 platform_browser_dynamic_1.platformBrowserDynamic().bootstrapModule(app_module_1.AppModule);
 
 
@@ -60778,6 +60773,10 @@ var companies_by_year_1 = __webpack_require__(73);
 var appRoutes = [
     { path: 'companies-by-year/:year', component: companies_by_year_1.CompaniesByYear },
 ];
+// Enable production mode unless running locally
+if (!/localhost/.test(document.location.host)) {
+    core_1.enableProdMode();
+}
 var AppModule = (function () {
     function AppModule() {
     }

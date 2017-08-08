@@ -4,7 +4,6 @@ import {
   CompaniesService 
 } from '../../services/companies';
 
-
 @Component({
   template: `
   <ul>
