@@ -10,7 +10,7 @@
     "lib": [ "es2015", "dom" ],
     "module": "commonjs",
     "moduleResolution": "node",
-    "outDir": "./static",
+    "outDir": "./typings",
     "sourceMap": true,
     "strictNullChecks": false, // @angular/core cannot handle strict null cheks
     "suppressImplicitAnyIndexErrors": true,
