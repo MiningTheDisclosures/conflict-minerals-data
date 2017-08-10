@@ -1,9 +1,11 @@
 import { Http } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+import { CompanyResponse } from '../models';
 export declare class CompaniesService {
     private http;
-    private apiURL;
     constructor(http: Http);
-    getCompanies(): Promise<any>;
-    private handleError(error);
+    getCompanies(url: string): Observable<CompanyResponse>;
 }

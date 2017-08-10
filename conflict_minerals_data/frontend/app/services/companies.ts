@@ -1,23 +1,35 @@
-import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { 
+  Injectable 
+} from '@angular/core';
+
+import { 
+  Http,
+  Response
+} from '@angular/http';
+
+import { 
+  Observable
+} from 'rxjs/Observable';
 
 import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+
+import {
+  CompanyResponse
+} from '../models';
 
 @Injectable()
 export class CompaniesService {
-  private apiURL = '/api/companies';
-
-  constructor(private http: Http) { }
-
-  getCompanies(): Promise<any> {
-    return this.http.get(this.apiURL)
-        .toPromise()
-        .then(response => response.json())
-        .catch(this.handleError);
+  constructor(private http: Http) { 
   }
 
-  private handleError(error: any) {
-    console.error('An error occurred', error);
-    return Promise.reject(error.message || error);
+  getCompanies(url: string): Observable<CompanyResponse> {
+    return this.http
+      .get(url)
+      .map((response: Response) => {
+        return (response.json() as CompanyResponse);
+      })
   }
+
 }

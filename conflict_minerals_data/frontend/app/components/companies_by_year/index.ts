@@ -1,37 +1,49 @@
-import { Component } from '@angular/core';
+import { 
+  Component 
+} from '@angular/core';
 
 import { 
   CompaniesService 
 } from '../../services/companies';
 
+import {
+  Company
+} from '../../models';
+
 @Component({
   template: `
-  <ul>
+  <ol>
     <li *ngFor="let company of companies">
       {{ company.cik }} - {{ company.conformed_name }}
     </li>
-  </ul>
+  </ol>
   `,
   providers: [CompaniesService]
 
 })
 export 
 class CompaniesByYear { 
-  constructor(private companiesService: CompaniesService) { }
-  companies: any[]
+  companies: Company[] = [];
  
-  getCompanies(): void {
-    this.companiesService.getCompanies()
-      .then((success) => {
-        this.companies = success.results as any[];
-      })
-      .catch((error) => {
-        console.error(error);
-      })
+  constructor(private companiesService: CompaniesService) { }
+
+  // Seems like a mix of logic between service and component
+
+  getCompanies(url: string): void {
+    this.companiesService.getCompanies(url)
+      .subscribe(
+        (data) => { 
+          this.companies = this.companies.concat(data.results);
+          if ( data.next ) {
+            this.getCompanies(data.next);
+          }
+        },
+        (error) => console.error("Error: ", error)
+      )
   }
  
   ngOnInit(): void {
-    this.getCompanies();
+    this.getCompanies('/api/companies/');
   }
  
 }
