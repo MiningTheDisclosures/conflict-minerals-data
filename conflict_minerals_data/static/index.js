@@ -60769,7 +60769,7 @@ var platform_browser_1 = __webpack_require__(8);
 var http_1 = __webpack_require__(30);
 var router_1 = __webpack_require__(50);
 var app_component_1 = __webpack_require__(69);
-var companies_by_year_1 = __webpack_require__(73);
+var companies_by_year_1 = __webpack_require__(70);
 var appRoutes = [
     { path: 'companies-by-year/:year', component: companies_by_year_1.CompaniesByYear },
 ];
@@ -68888,8 +68888,55 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
+var companies_1 = __webpack_require__(71);
+var CompaniesByYear = (function () {
+    function CompaniesByYear(companiesService) {
+        this.companiesService = companiesService;
+    }
+    CompaniesByYear.prototype.getCompanies = function () {
+        var _this = this;
+        this.companiesService.getCompanies()
+            .then(function (success) {
+            _this.companies = success.results;
+        })
+            .catch(function (error) {
+            console.error(error);
+        });
+    };
+    CompaniesByYear.prototype.ngOnInit = function () {
+        this.getCompanies();
+    };
+    CompaniesByYear = __decorate([
+        core_1.Component({
+            template: "\n  <ul>\n    <li *ngFor=\"let company of companies\">\n      {{ company.cik }} - {{ company.conformed_name }}\n    </li>\n  </ul>\n  ",
+            providers: [companies_1.CompaniesService]
+        }),
+        __metadata("design:paramtypes", [companies_1.CompaniesService])
+    ], CompaniesByYear);
+    return CompaniesByYear;
+}());
+exports.CompaniesByYear = CompaniesByYear;
+
+
+/***/ }),
+/* 71 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(2);
 var http_1 = __webpack_require__(30);
-__webpack_require__(71);
+__webpack_require__(72);
 var CompaniesService = (function () {
     function CompaniesService(http) {
         this.http = http;
@@ -68915,18 +68962,18 @@ exports.CompaniesService = CompaniesService;
 
 
 /***/ }),
-/* 71 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var Observable_1 = __webpack_require__(0);
-var toPromise_1 = __webpack_require__(72);
+var toPromise_1 = __webpack_require__(73);
 Observable_1.Observable.prototype.toPromise = toPromise_1.toPromise;
 //# sourceMappingURL=toPromise.js.map
 
 /***/ }),
-/* 72 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -69002,53 +69049,6 @@ function toPromise(PromiseCtor) {
 }
 exports.toPromise = toPromise;
 //# sourceMappingURL=toPromise.js.map
-
-/***/ }),
-/* 73 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__(2);
-var companies_1 = __webpack_require__(70);
-var CompaniesByYear = (function () {
-    function CompaniesByYear(companiesService) {
-        this.companiesService = companiesService;
-    }
-    CompaniesByYear.prototype.getCompanies = function () {
-        var _this = this;
-        this.companiesService.getCompanies()
-            .then(function (success) {
-            _this.companies = success.results;
-        })
-            .catch(function (error) {
-            console.error(error);
-        });
-    };
-    CompaniesByYear.prototype.ngOnInit = function () {
-        this.getCompanies();
-    };
-    CompaniesByYear = __decorate([
-        core_1.Component({
-            template: "\n  <ul>\n    <li *ngFor=\"let company of companies\">\n      {{ company.cik }} - {{ company.conformed_name }}\n    </li>\n  </ul>\n  ",
-            providers: [companies_1.CompaniesService]
-        }),
-        __metadata("design:paramtypes", [companies_1.CompaniesService])
-    ], CompaniesByYear);
-    return CompaniesByYear;
-}());
-exports.CompaniesByYear = CompaniesByYear;
-
 
 /***/ })
 /******/ ]);
