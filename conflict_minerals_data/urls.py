@@ -21,7 +21,9 @@ urlpatterns = [
     url(r'^app/', App.as_view()),
     # API
     url(r'^api/', include(router.urls)),
-    url(r'^api/companies-bulk/', edgar_views.EdgarCompanyListView.as_view()),
+    url(r'^api/companies-bulk/', edgar_views.EdgarCompanyInfoBulkView.as_view()),
+    url(r'^api/filings/', edgar_views.EdgarSDFilingListView.as_view()),
+    url(r'^api/filing-documents/', edgar_views.EdgarSDFilingDocumentListView.as_view()),
     url(r'^api/user/', auth_views.UserView.as_view()),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     # Admin
