@@ -3,11 +3,11 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { ICompany, ICompanyResponse } from '../models';
-export declare class CompaniesService {
+import { IFiling, IFilingResponse } from '../models';
+export declare class FilingsService {
     private http;
-    companies: ICompany[];
+    filings: IFiling[];
     constructor(http: Http);
-    getResponse(url: string): Observable<ICompanyResponse>;
-    getCompanies(url?: string): void;
+    getResponse(url: string, params: {}): Observable<IFilingResponse>;
+    getFilings(url?: string, params?: {}): void;
 }

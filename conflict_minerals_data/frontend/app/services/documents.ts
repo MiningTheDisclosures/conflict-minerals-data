@@ -16,21 +16,21 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 import {
-  Document,
-  DocumentResponse,
+  IDocument,
+  IDocumentResponse,
 } from '../models';
 
 @Injectable()
 export class DocumentsService {
-  documents: Document[] = [];
+  documents: IDocument[] = [];
   constructor(private http: Http) { 
   }
 
-  getResponse(url: string): Observable<DocumentResponse> {
+  getResponse(url: string): Observable<IDocumentResponse> {
     return this.http
       .get(url)
       .map((response: Response) => {
-        return (response.json() as DocumentResponse);
+        return (response.json() as IDocumentResponse);
       })
   }
 

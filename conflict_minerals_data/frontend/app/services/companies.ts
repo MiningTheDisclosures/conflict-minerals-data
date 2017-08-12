@@ -16,21 +16,21 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 import {
-  Company,
-  CompanyResponse
+  ICompany,
+  ICompanyResponse
 } from '../models';
 
 @Injectable()
 export class CompaniesService {
-  companies: Company[] = [];
+  companies: ICompany[] = [];
   constructor(private http: Http) { 
   }
 
-  getResponse(url: string): Observable<CompanyResponse> {
+  getResponse(url: string): Observable<ICompanyResponse> {
     return this.http
       .get(url)
       .map((response: Response) => {
-        return (response.json() as CompanyResponse);
+        return (response.json() as ICompanyResponse);
       })
   }
 

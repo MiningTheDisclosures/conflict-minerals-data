@@ -1,5 +1,5 @@
 export
-interface DjangoAPIResponse {
+interface IDjangoAPIResponse {
   count: number;
   next: string | null; // url
   previous: string | null;
@@ -7,7 +7,7 @@ interface DjangoAPIResponse {
 }
 
 export
-interface Company {
+interface ICompany {
   id: number;
   cik: string;
   conformed_name: string;
@@ -18,12 +18,12 @@ interface Company {
 }
 
 export
-interface CompanyResponse extends DjangoAPIResponse {
-  results: Company[];
+interface ICompanyResponse extends IDjangoAPIResponse {
+  results: ICompany[];
 }
 
 export
-interface Filing {
+interface IFiling {
   id: number;
   filing_type: string;
   sec_accession_number: string;
@@ -33,12 +33,12 @@ interface Filing {
 }
 
 export
-interface FilingResponse extends DjangoAPIResponse {
-  results: Filing[];
+interface IFilingResponse extends IDjangoAPIResponse {
+  results: IFiling[];
 }
 
 export
-interface Document {
+interface IDocument {
   id: number;
   filing: number;
   seq: number;
@@ -51,6 +51,6 @@ interface Document {
 }
 
 export
-interface DocumentResponse extends DjangoAPIResponse {
-  results: Document[];
+interface IDocumentResponse extends IDjangoAPIResponse {
+  results: IDocument[];
 }
