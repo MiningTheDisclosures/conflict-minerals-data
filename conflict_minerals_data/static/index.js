@@ -68892,21 +68892,16 @@ var companies_1 = __webpack_require__(71);
 var CompaniesByYear = (function () {
     function CompaniesByYear(companiesService) {
         this.companiesService = companiesService;
-        this.companies = [];
     }
-    // Seems like a mix of logic between service and component
-    CompaniesByYear.prototype.getCompanies = function (url) {
-        var _this = this;
-        this.companiesService.getCompanies(url)
-            .subscribe(function (data) {
-            _this.companies = _this.companies.concat(data.results);
-            if (data.next) {
-                _this.getCompanies(data.next);
-            }
-        }, function (error) { return console.error("Error: ", error); });
-    };
+    Object.defineProperty(CompaniesByYear.prototype, "companies", {
+        get: function () {
+            return this.companiesService.companies;
+        },
+        enumerable: true,
+        configurable: true
+    });
     CompaniesByYear.prototype.ngOnInit = function () {
-        this.getCompanies('/api/companies/');
+        this.companiesService.getCompanies();
     };
     CompaniesByYear = __decorate([
         core_1.Component({
@@ -68944,12 +68939,25 @@ __webpack_require__(75);
 var CompaniesService = (function () {
     function CompaniesService(http) {
         this.http = http;
+        this.companies = [];
     }
-    CompaniesService.prototype.getCompanies = function (url) {
+    CompaniesService.prototype.getResponse = function (url) {
         return this.http
             .get(url)
             .map(function (response) {
             return response.json();
+        });
+    };
+    CompaniesService.prototype.getCompanies = function (url) {
+        var _this = this;
+        if (!url) {
+            url = '/api/companies';
+        }
+        this.getResponse(url).subscribe(function (data) {
+            _this.companies = _this.companies.concat(data.results);
+            if (data.next) {
+                return _this.getCompanies(data.next);
+            }
         });
     };
     CompaniesService = __decorate([

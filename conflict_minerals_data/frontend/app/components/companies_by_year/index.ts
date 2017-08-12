@@ -23,27 +23,14 @@ import {
 })
 export 
 class CompaniesByYear { 
-  companies: Company[] = [];
  
   constructor(private companiesService: CompaniesService) { }
 
-  // Seems like a mix of logic between service and component
-
-  getCompanies(url: string): void {
-    this.companiesService.getCompanies(url)
-      .subscribe(
-        (data) => { 
-          this.companies = this.companies.concat(data.results);
-          if ( data.next ) {
-            this.getCompanies(data.next);
-          }
-        },
-        (error) => console.error("Error: ", error)
-      )
+  get companies(): Company[] {
+    return this.companiesService.companies;
   }
- 
   ngOnInit(): void {
-    this.getCompanies('/api/companies/');
+    this.companiesService.getCompanies();
   }
  
 }
