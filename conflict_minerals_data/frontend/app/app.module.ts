@@ -5,9 +5,11 @@ import {
 import { 
   BrowserModule 
 } from '@angular/platform-browser';
+
 import { 
   HttpModule 
 } from '@angular/http';
+
 import { 
   RouterModule, 
   Routes
@@ -18,11 +20,11 @@ import {
 } from './app.component';
 
 import { 
-  CompaniesByYear
-} from './components/companies_by_year';
+  DocumentsByYear
+} from './components/documents_by_year';
 
 const appRoutes: Routes = [
-   { path: 'companies-by-year/:year', component: CompaniesByYear },
+   { path: 'companies-by-year/:year', component: DocumentsByYear },
 ]
 
 // Enable production mode unless running locally
@@ -38,7 +40,7 @@ if (!/localhost/.test(document.location.host)) {
   ],
   declarations: [ 
     AppComponent,
-    CompaniesByYear,
+    DocumentsByYear
   ],
   bootstrap: [ 
     AppComponent 

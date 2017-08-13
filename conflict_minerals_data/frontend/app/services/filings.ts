@@ -1,4 +1,5 @@
 import {
+  Filing,
   IFiling,
 } from '../models';
 
@@ -15,7 +16,9 @@ class FilingsService extends DjangoAPIService {
   }
 
   protected processResults(results: IFiling[]) {
-    this.filings = this.filings.concat(results)
+    for ( let result of results )  {
+      this.filings.push(new Filing(result));
+    }
   }
 
 }

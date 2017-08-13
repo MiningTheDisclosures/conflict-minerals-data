@@ -7,10 +7,6 @@ import {
   Params
 } from '@angular/router';
 
-import {
-  Subscription
-} from 'rxjs/Subscription';
-
 import { 
   CompaniesService 
 } from '../../services/companies';
@@ -20,20 +16,16 @@ import {
 } from '../../services/filings';
 
 import {
+  Company,
   ICompany,
-  IFiling
+  IFiling,
 } from '../../models';
 
 @Component({
   template: `
   <ol>
     <li *ngFor="let filing of filings">
-      {{ filing.company }} - <a href="{{ filing.link }}">{{ filing.date }}</a>
-    </li>
-  </ol>
-  <ol>
-    <li *ngFor="let company of companies">
-      {{ company.cik }} - {{ company.conformed_name }}
+      {{ filing.company.conformed_name }} - <a href="{{ filing.link }}">{{ filing.date }}</a>
     </li>
   </ol>
   `,
@@ -44,9 +36,8 @@ import {
 
 })
 export 
-class CompaniesByYear { 
-  year: Subscription;
-  route: ActivatedRoute;
+class DocumentsByYear { 
+  year: number;
  
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -54,19 +45,36 @@ class CompaniesByYear {
     private filingsService: FilingsService,
   ) { }
 
-  get companies(): ICompany[] {
+  get companies(): Map<number, ICompany> {
     return this.companiesService.companies;
   }
   get filings(): IFiling[] {
-    return this.filingsService.filings;
+    // Get the filings for the active year
+    let activeFilings = this.filingsService.filings.filter(
+      (item, i, all) => {
+        return item.date.getFullYear() == this.year;
+      }
+    );
+    // Add the company on
+    activeFilings.map(
+      (item, i, all) => {
+        item.company = this.companies.get(item.company_id) || new Company({});
+      }
+    )
+    return activeFilings;
   }
   
   ngOnInit(): void {
-    this.companiesService.getCompanies();
+    this.companiesService.getResults({});
     // Get filings for a particular year on route change
     this.activatedRoute.params.subscribe((params: Params) => {
+      this.year = parseInt(params.year);
       this.filingsService.getResults(params);
     });
+  }
+
+  ngOnChanges(): void {
+    console.log('changed');
   }
  
 }

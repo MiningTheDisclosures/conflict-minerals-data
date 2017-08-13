@@ -1,13 +1,7 @@
-import { Http } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/toPromise';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import { IDocument, IDocumentResponse } from '../models';
-export declare class DocumentsService {
-    private http;
+import { IDocument } from '../models';
+import { DjangoAPIService } from './django_api';
+export declare class DocumentsService extends DjangoAPIService {
     documents: IDocument[];
-    constructor(http: Http);
-    getResponse(url: string): Observable<IDocumentResponse>;
-    getDocuments(url?: string): void;
+    initialize(): void;
+    protected processResults(results: IDocument[]): void;
 }

@@ -1,3 +1,4 @@
+import * as models from './models';
 export interface IDjangoAPIResponse {
     count: number;
     next: string | null;
@@ -20,7 +21,8 @@ export interface IFiling {
     id: number;
     filing_type: string;
     sec_accession_number: string;
-    company: number;
+    company_id: number;
+    company: ICompany;
     date: Date;
     link: string;
 }
@@ -29,7 +31,8 @@ export interface IFilingResponse extends IDjangoAPIResponse {
 }
 export interface IDocument {
     id: number;
-    filing: number;
+    filing_id: number;
+    filing: IFiling;
     seq: number;
     description: string;
     doc_type: string;
@@ -41,3 +44,6 @@ export interface IDocument {
 export interface IDocumentResponse extends IDjangoAPIResponse {
     results: IDocument[];
 }
+export import Company = models.Company;
+export import Filing = models.Filing;
+export import FilingDocument = models.FilingDocument;
