@@ -2,13 +2,23 @@ import {
   enableProdMode,
   NgModule
 } from '@angular/core';
-import { 
-  BrowserModule 
-} from '@angular/platform-browser';
 
 import { 
   HttpModule 
 } from '@angular/http';
+
+import {
+  MdTableModule,
+  MdToolbarModule,
+} from '@angular/material';
+
+import { 
+  BrowserModule 
+} from '@angular/platform-browser';
+
+import {
+  BrowserAnimationsModule
+} from '@angular/platform-browser/animations';
 
 import { 
   RouterModule, 
@@ -35,8 +45,11 @@ if (!/localhost/.test(document.location.host)) {
 @NgModule({
   imports: [ 
     BrowserModule,
+    BrowserAnimationsModule,
     HttpModule,
-    RouterModule.forRoot( appRoutes )
+    MdTableModule,
+    MdToolbarModule,
+    RouterModule.forRoot(appRoutes)
   ],
   declarations: [ 
     AppComponent,
@@ -44,7 +57,7 @@ if (!/localhost/.test(document.location.host)) {
   ],
   bootstrap: [ 
     AppComponent 
-  ]
+  ],
 })
 export 
 class AppModule { }

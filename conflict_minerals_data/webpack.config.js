@@ -24,11 +24,14 @@ module.exports = {
           'style-loader',
           'css-loader'
         ],
-        exclude: /node_modules/
+      },
+      { 
+        test: /\.html$/,
+        loader: 'raw-loader',
       },
       {
-        test: /\.tsx?$/,
-        use: 'ts-loader',
+        test: /\.ts?$/,
+        loaders: ['ts-loader', 'angular2-template-loader'],
         exclude: /node_modules/
       }
     ]
