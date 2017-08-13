@@ -336,9 +336,9 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var isFunction_1 = __webpack_require__(19);
+var isFunction_1 = __webpack_require__(20);
 var Subscription_1 = __webpack_require__(7);
-var Observer_1 = __webpack_require__(23);
+var Observer_1 = __webpack_require__(24);
 var rxSubscriber_1 = __webpack_require__(9);
 /**
  * Implements the {@link Observer} interface and extends the
@@ -6449,7 +6449,7 @@ var SystemJsNgModuleLoader = (function () {
         if (exportName === undefined) {
             exportName = 'default';
         }
-        return __webpack_require__(30)(module)
+        return __webpack_require__(31)(module)
             .then(function (module) { return module[exportName]; })
             .then(function (type) { return checkNotEmpty(type, module, exportName); })
             .then(function (type) { return _this._compiler.compileModuleAsync(type); });
@@ -6465,7 +6465,7 @@ var SystemJsNgModuleLoader = (function () {
             exportName = 'default';
             factoryClassSuffix = '';
         }
-        return __webpack_require__(30)(this._config.factoryPathPrefix + module + this._config.factoryPathSuffix)
+        return __webpack_require__(31)(this._config.factoryPathPrefix + module + this._config.factoryPathSuffix)
             .then(function (module) { return module[exportName + factoryClassSuffix]; })
             .then(function (factory) { return checkNotEmpty(factory, module, exportName); });
     };
@@ -15822,7 +15822,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 var Observable_1 = __webpack_require__(0);
 var Subscriber_1 = __webpack_require__(1);
 var Subscription_1 = __webpack_require__(7);
-var ObjectUnsubscribedError_1 = __webpack_require__(29);
+var ObjectUnsubscribedError_1 = __webpack_require__(30);
 var SubjectSubscription_1 = __webpack_require__(53);
 var rxSubscriber_1 = __webpack_require__(9);
 /**
@@ -16015,11 +16015,11 @@ module.exports = g;
 
 "use strict";
 
-var isArray_1 = __webpack_require__(20);
-var isObject_1 = __webpack_require__(21);
-var isFunction_1 = __webpack_require__(19);
+var isArray_1 = __webpack_require__(21);
+var isObject_1 = __webpack_require__(22);
+var isFunction_1 = __webpack_require__(20);
 var tryCatch_1 = __webpack_require__(45);
-var errorObject_1 = __webpack_require__(22);
+var errorObject_1 = __webpack_require__(23);
 var UnsubscriptionError_1 = __webpack_require__(46);
 /**
  * Represents a disposable resource, such as the execution of an Observable. A
@@ -20758,9 +20758,9 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var Observable_1 = __webpack_require__(0);
-var ScalarObservable_1 = __webpack_require__(24);
-var EmptyObservable_1 = __webpack_require__(25);
-var isScheduler_1 = __webpack_require__(26);
+var ScalarObservable_1 = __webpack_require__(25);
+var EmptyObservable_1 = __webpack_require__(26);
+var isScheduler_1 = __webpack_require__(27);
 /**
  * We need this JSDoc comment for affecting ESDoc.
  * @extends {Ignored}
@@ -21034,9 +21034,9 @@ exports.OuterSubscriber = OuterSubscriber;
 "use strict";
 
 var root_1 = __webpack_require__(3);
-var isArrayLike_1 = __webpack_require__(27);
-var isPromise_1 = __webpack_require__(28);
-var isObject_1 = __webpack_require__(21);
+var isArrayLike_1 = __webpack_require__(28);
+var isPromise_1 = __webpack_require__(29);
+var isObject_1 = __webpack_require__(22);
 var Observable_1 = __webpack_require__(0);
 var iterator_1 = __webpack_require__(15);
 var InnerSubscriber_1 = __webpack_require__(49);
@@ -25230,14 +25230,90 @@ exports.EmptyError = EmptyError;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var models = __webpack_require__(74);
+var models = __webpack_require__(75);
 exports.Company = models.Company;
 exports.Filing = models.Filing;
-exports.FilingDocument = models.FilingDocument;
+exports.Document = models.Document;
 
 
 /***/ }),
 /* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(2);
+var http_1 = __webpack_require__(32);
+__webpack_require__(76);
+__webpack_require__(78);
+__webpack_require__(79);
+var DjangoAPIService = (function () {
+    function DjangoAPIService(http) {
+        this.http = http;
+        this.retrieved = [];
+        this.initialize();
+    }
+    DjangoAPIService.prototype.initialize = function () {
+        // setup URL in SubClass
+    };
+    DjangoAPIService.prototype.processResults = function (results) {
+        // SubClass should save results here
+    };
+    DjangoAPIService.prototype.getResults = function (params) {
+        var _this = this;
+        var existingGets = this.retrieved.filter(function (item, i, array) {
+            return item.page == params.page && item.year == params.year;
+        });
+        if (existingGets.length > 0) {
+            // Don't get something we already got
+            return;
+        }
+        this.retrieved.push(params);
+        this.getResponse(this.url, params).subscribe(function (data) {
+            _this.processResults(data.results);
+            if (data.next) {
+                var nextParams = _this.getParamsFromUrl(data.next);
+                _this.getResults(nextParams);
+            }
+        });
+    };
+    DjangoAPIService.prototype.getResponse = function (url, params) {
+        return this.http
+            .get(url, {
+            params: params
+        })
+            .map(function (response) {
+            return response.json();
+        });
+    };
+    DjangoAPIService.prototype.getParamsFromUrl = function (url) {
+        var paramString = url.split('?')[1];
+        // Stack overflow copy-paste
+        // https://stackoverflow.com/questions/8648892/convert-url-parameters-to-a-javascript-object
+        var paramObject = JSON.parse('{"' + decodeURI(paramString.replace(/&/g, "\",\"").replace(/=/g, "\":\"")) + '"}');
+        return paramObject;
+    };
+    DjangoAPIService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [http_1.Http])
+    ], DjangoAPIService);
+    return DjangoAPIService;
+}());
+exports.DjangoAPIService = DjangoAPIService;
+
+
+/***/ }),
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25249,7 +25325,7 @@ exports.isFunction = isFunction;
 //# sourceMappingURL=isFunction.js.map
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25258,7 +25334,7 @@ exports.isArray = Array.isArray || (function (x) { return x && typeof x.length =
 //# sourceMappingURL=isArray.js.map
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25270,7 +25346,7 @@ exports.isObject = isObject;
 //# sourceMappingURL=isObject.js.map
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25280,7 +25356,7 @@ exports.errorObject = { e: {} };
 //# sourceMappingURL=errorObject.js.map
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25294,7 +25370,7 @@ exports.empty = {
 //# sourceMappingURL=Observer.js.map
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25358,7 +25434,7 @@ exports.ScalarObservable = ScalarObservable;
 //# sourceMappingURL=ScalarObservable.js.map
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25445,7 +25521,7 @@ exports.EmptyObservable = EmptyObservable;
 //# sourceMappingURL=EmptyObservable.js.map
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25457,7 +25533,7 @@ exports.isScheduler = isScheduler;
 //# sourceMappingURL=isScheduler.js.map
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25466,7 +25542,7 @@ exports.isArrayLike = (function (x) { return x && typeof x.length === 'number'; 
 //# sourceMappingURL=isArrayLike.js.map
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25478,7 +25554,7 @@ exports.isPromise = isPromise;
 //# sourceMappingURL=isPromise.js.map
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25511,7 +25587,7 @@ exports.ObjectUnsubscribedError = ObjectUnsubscribedError;
 //# sourceMappingURL=ObjectUnsubscribedError.js.map
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports) {
 
 function webpackEmptyAsyncContext(req) {
@@ -25524,10 +25600,10 @@ function webpackEmptyAsyncContext(req) {
 webpackEmptyAsyncContext.keys = function() { return []; };
 webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
 module.exports = webpackEmptyAsyncContext;
-webpackEmptyAsyncContext.id = 30;
+webpackEmptyAsyncContext.id = 31;
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -27756,7 +27832,7 @@ var VERSION = new __WEBPACK_IMPORTED_MODULE_1__angular_core__["Version"]('4.3.3'
 
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -27835,15 +27911,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rxjs_operator_first___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_rxjs_operator_first__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_rxjs_operator_last__ = __webpack_require__(66);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_rxjs_operator_last___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_rxjs_operator_last__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_rxjs_operator_map__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_rxjs_operator_map__ = __webpack_require__(36);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_rxjs_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11_rxjs_operator_map__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_rxjs_operator_mergeMap__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_rxjs_operator_mergeMap__ = __webpack_require__(35);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_rxjs_operator_mergeMap___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12_rxjs_operator_mergeMap__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_rxjs_operator_reduce__ = __webpack_require__(67);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_rxjs_operator_reduce___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13_rxjs_operator_reduce__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_rxjs_Observable__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14_rxjs_Observable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_rxjs_operator_catch__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_rxjs_operator_catch__ = __webpack_require__(37);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_rxjs_operator_catch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15_rxjs_operator_catch__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_rxjs_operator_concatAll__ = __webpack_require__(68);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_rxjs_operator_concatAll___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_16_rxjs_operator_concatAll__);
@@ -34144,7 +34220,7 @@ var VERSION = new __WEBPACK_IMPORTED_MODULE_2__angular_core__["Version"]('4.3.3'
 
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34271,7 +34347,7 @@ function dispatchError(arg) {
 //# sourceMappingURL=PromiseObservable.js.map
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34448,7 +34524,7 @@ exports.MergeMapSubscriber = MergeMapSubscriber;
 //# sourceMappingURL=mergeMap.js.map
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34541,7 +34617,7 @@ var MapSubscriber = (function (_super) {
 //# sourceMappingURL=map.js.map
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34661,82 +34737,6 @@ var CatchSubscriber = (function (_super) {
     return CatchSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 //# sourceMappingURL=catch.js.map
-
-/***/ }),
-/* 37 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__(2);
-var http_1 = __webpack_require__(31);
-__webpack_require__(75);
-__webpack_require__(77);
-__webpack_require__(78);
-var DjangoAPIService = (function () {
-    function DjangoAPIService(http) {
-        this.http = http;
-        this.retrieved = [];
-        this.initialize();
-    }
-    DjangoAPIService.prototype.initialize = function () {
-        // setup URL in SubClass
-    };
-    DjangoAPIService.prototype.processResults = function (results) {
-        // SubClass should save results here
-    };
-    DjangoAPIService.prototype.getResults = function (params) {
-        var _this = this;
-        var existingGets = this.retrieved.filter(function (item, i, array) {
-            return item.page == params.page && item.year == params.year;
-        });
-        if (existingGets.length > 0) {
-            // Don't get something we already got
-            return;
-        }
-        this.retrieved.push(params);
-        this.getResponse(this.url, params).subscribe(function (data) {
-            _this.processResults(data.results);
-            if (data.next) {
-                var nextParams = _this.getParamsFromUrl(data.next);
-                _this.getResults(nextParams);
-            }
-        });
-    };
-    DjangoAPIService.prototype.getResponse = function (url, params) {
-        return this.http
-            .get(url, {
-            params: params
-        })
-            .map(function (response) {
-            return response.json();
-        });
-    };
-    DjangoAPIService.prototype.getParamsFromUrl = function (url) {
-        var paramString = url.split('?')[1];
-        // Stack overflow copy-paste
-        // https://stackoverflow.com/questions/8648892/convert-url-parameters-to-a-javascript-object
-        var paramObject = JSON.parse('{"' + decodeURI(paramString.replace(/&/g, "\",\"").replace(/=/g, "\":\"")) + '"}');
-        return paramObject;
-    };
-    DjangoAPIService = __decorate([
-        core_1.Injectable(),
-        __metadata("design:paramtypes", [http_1.Http])
-    ], DjangoAPIService);
-    return DjangoAPIService;
-}());
-exports.DjangoAPIService = DjangoAPIService;
-
 
 /***/ }),
 /* 38 */
@@ -66852,7 +66852,7 @@ function _mergeArrays(parts) {
 
 var Subscriber_1 = __webpack_require__(1);
 var rxSubscriber_1 = __webpack_require__(9);
-var Observer_1 = __webpack_require__(23);
+var Observer_1 = __webpack_require__(24);
 function toSubscriber(nextOrObserver, error, complete) {
     if (nextOrObserver) {
         if (nextOrObserver instanceof Subscriber_1.Subscriber) {
@@ -66876,7 +66876,7 @@ exports.toSubscriber = toSubscriber;
 
 "use strict";
 
-var errorObject_1 = __webpack_require__(22);
+var errorObject_1 = __webpack_require__(23);
 var tryCatchTarget;
 function tryCatcher() {
     try {
@@ -66945,7 +66945,7 @@ exports.merge = merge_1.mergeStatic;
 var Observable_1 = __webpack_require__(0);
 var ArrayObservable_1 = __webpack_require__(11);
 var mergeAll_1 = __webpack_require__(12);
-var isScheduler_1 = __webpack_require__(26);
+var isScheduler_1 = __webpack_require__(27);
 /* tslint:enable:max-line-length */
 /**
  * Creates an output Observable which concurrently emits all values from every
@@ -67458,8 +67458,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var platform_browser_1 = __webpack_require__(8);
-var http_1 = __webpack_require__(31);
-var router_1 = __webpack_require__(32);
+var http_1 = __webpack_require__(32);
+var router_1 = __webpack_require__(33);
 var app_component_1 = __webpack_require__(71);
 var documents_by_year_1 = __webpack_require__(72);
 var appRoutes = [
@@ -67505,7 +67505,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var Subject_1 = __webpack_require__(5);
-var ObjectUnsubscribedError_1 = __webpack_require__(29);
+var ObjectUnsubscribedError_1 = __webpack_require__(30);
 /**
  * @class BehaviorSubject<T>
  */
@@ -67569,10 +67569,10 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var isArray_1 = __webpack_require__(20);
-var isArrayLike_1 = __webpack_require__(27);
-var isPromise_1 = __webpack_require__(28);
-var PromiseObservable_1 = __webpack_require__(33);
+var isArray_1 = __webpack_require__(21);
+var isArrayLike_1 = __webpack_require__(28);
+var isPromise_1 = __webpack_require__(29);
+var PromiseObservable_1 = __webpack_require__(34);
 var IteratorObservable_1 = __webpack_require__(58);
 var ArrayObservable_1 = __webpack_require__(11);
 var ArrayLikeObservable_1 = __webpack_require__(59);
@@ -67867,8 +67867,8 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var Observable_1 = __webpack_require__(0);
-var ScalarObservable_1 = __webpack_require__(24);
-var EmptyObservable_1 = __webpack_require__(25);
+var ScalarObservable_1 = __webpack_require__(25);
+var EmptyObservable_1 = __webpack_require__(26);
 /**
  * We need this JSDoc comment for affecting ESDoc.
  * @extends {Ignored}
@@ -68199,7 +68199,7 @@ exports.of = ArrayObservable_1.ArrayObservable.of;
 
 "use strict";
 
-var mergeMap_1 = __webpack_require__(34);
+var mergeMap_1 = __webpack_require__(35);
 /* tslint:enable:max-line-length */
 /**
  * Projects each source value to an Observable which is merged in the output
@@ -68829,7 +68829,7 @@ exports.concatAll = concatAll;
 
 "use strict";
 
-var PromiseObservable_1 = __webpack_require__(33);
+var PromiseObservable_1 = __webpack_require__(34);
 exports.fromPromise = PromiseObservable_1.PromiseObservable.create;
 //# sourceMappingURL=fromPromise.js.map
 
@@ -68977,20 +68977,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var router_1 = __webpack_require__(32);
-var companies_1 = __webpack_require__(73);
-var filings_1 = __webpack_require__(79);
+var router_1 = __webpack_require__(33);
+var services_1 = __webpack_require__(73);
 var models_1 = __webpack_require__(18);
 var DocumentsByYear = (function () {
-    function DocumentsByYear(activatedRoute, companiesService, filingsService) {
+    function DocumentsByYear(activatedRoute, companiesService, documentsService, filingsService) {
         this.activatedRoute = activatedRoute;
         this.companiesService = companiesService;
+        this.documentsService = documentsService;
         this.filingsService = filingsService;
     }
     Object.defineProperty(DocumentsByYear.prototype, "companies", {
-        get: function () {
-            return this.companiesService.companies;
-        },
+        get: function () { return this.companiesService.companies; },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DocumentsByYear.prototype, "documents", {
+        get: function () { return this.documentsService.documents; },
         enumerable: true,
         configurable: true
     });
@@ -69001,9 +69004,12 @@ var DocumentsByYear = (function () {
             return this.filingsService.filings.filter(function (item, i, all) {
                 return item.date.getFullYear() == _this.year;
             })
-                .map(function (item, i, all) {
-                item.company = _this.companies.get(item.company_id) || new models_1.Company({});
-                return item;
+                .map(function (filing, i, all) {
+                filing.company = _this.companies.get(filing.company_id) || new models_1.Company({});
+                filing.documents = _this.documents.filter(function (document, i, all) {
+                    return document.filing_id == filing.id;
+                }) || [];
+                return filing;
             })
                 .sort(function (a, b) {
                 var compA = a.company && a.company.conformed_name ? a.company.conformed_name : 'Undefined';
@@ -69030,22 +69036,22 @@ var DocumentsByYear = (function () {
         this.activatedRoute.params.subscribe(function (params) {
             _this.year = parseInt(params.year);
             _this.filingsService.getResults(params);
+            _this.documentsService.getResults(params);
         });
-    };
-    DocumentsByYear.prototype.ngOnChanges = function () {
-        console.log('changed');
     };
     DocumentsByYear = __decorate([
         core_1.Component({
-            template: "\n  <ul>\n    <li *ngFor=\"let filing of filings\">\n      {{ filing.company.conformed_name | titlecase }} - <a href=\"{{ filing.link }}\">{{ filing.date | date:'MM-dd-yyyy'}}</a>\n    </li>\n  </ul>\n  ",
+            template: "\n  <ul>\n    <li *ngFor=\"let filing of filings\">\n      {{ filing.company.conformed_name | titlecase }} - <a href=\"{{ filing.link }}\">{{ filing.date | date:'MM-dd-yyyy'}}</a>\n      <div *ngFor=\"let doc of filing.documents\">\n        {{ doc.doc_type }}\n      </div>\n    </li>\n  </ul>\n  ",
             providers: [
-                companies_1.CompaniesService,
-                filings_1.FilingsService
+                services_1.CompaniesService,
+                services_1.DocumentsService,
+                services_1.FilingsService
             ]
         }),
         __metadata("design:paramtypes", [router_1.ActivatedRoute,
-            companies_1.CompaniesService,
-            filings_1.FilingsService])
+            services_1.CompaniesService,
+            services_1.DocumentsService,
+            services_1.FilingsService])
     ], DocumentsByYear);
     return DocumentsByYear;
 }());
@@ -69054,6 +69060,21 @@ exports.DocumentsByYear = DocumentsByYear;
 
 /***/ }),
 /* 73 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var companies = __webpack_require__(74);
+var filings = __webpack_require__(80);
+var documents = __webpack_require__(81);
+exports.CompaniesService = companies.CompaniesService;
+exports.FilingsService = filings.FilingsService;
+exports.DocumentsService = documents.DocumentsService;
+
+
+/***/ }),
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -69070,7 +69091,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var models_1 = __webpack_require__(18);
-var django_api_1 = __webpack_require__(37);
+var django_api_1 = __webpack_require__(19);
 var CompaniesService = (function (_super) {
     __extends(CompaniesService, _super);
     function CompaniesService() {
@@ -69098,7 +69119,7 @@ exports.CompaniesService = CompaniesService;
 
 
 /***/ }),
-/* 74 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -69129,27 +69150,36 @@ var Filing = (function () {
     return Filing;
 }());
 exports.Filing = Filing;
-var FilingDocument = (function () {
-    function FilingDocument() {
+var Document = (function () {
+    function Document(result) {
+        this.id = parseInt(result.id);
+        this.filing_id = parseInt(result.filing);
+        this.seq = parseInt(result.seq);
+        this.description = result.description;
+        this.doc_type = result.doc_type;
+        this.doc_size = result.doc_size;
+        this.doc_name = result.doc_name;
+        this.doc_url = result.doc_url;
+        this.doc_format = result.doc_format;
     }
-    return FilingDocument;
+    return Document;
 }());
-exports.FilingDocument = FilingDocument;
+exports.Document = Document;
 
 
 /***/ }),
-/* 75 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var Observable_1 = __webpack_require__(0);
-var toPromise_1 = __webpack_require__(76);
+var toPromise_1 = __webpack_require__(77);
 Observable_1.Observable.prototype.toPromise = toPromise_1.toPromise;
 //# sourceMappingURL=toPromise.js.map
 
 /***/ }),
-/* 76 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -69227,30 +69257,30 @@ exports.toPromise = toPromise;
 //# sourceMappingURL=toPromise.js.map
 
 /***/ }),
-/* 77 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var Observable_1 = __webpack_require__(0);
-var map_1 = __webpack_require__(35);
-Observable_1.Observable.prototype.map = map_1.map;
-//# sourceMappingURL=map.js.map
-
-/***/ }),
 /* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var Observable_1 = __webpack_require__(0);
-var catch_1 = __webpack_require__(36);
+var map_1 = __webpack_require__(36);
+Observable_1.Observable.prototype.map = map_1.map;
+//# sourceMappingURL=map.js.map
+
+/***/ }),
+/* 79 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var Observable_1 = __webpack_require__(0);
+var catch_1 = __webpack_require__(37);
 Observable_1.Observable.prototype.catch = catch_1._catch;
 Observable_1.Observable.prototype._catch = catch_1._catch;
 //# sourceMappingURL=catch.js.map
 
 /***/ }),
-/* 79 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -69267,7 +69297,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var models_1 = __webpack_require__(18);
-var django_api_1 = __webpack_require__(37);
+var django_api_1 = __webpack_require__(19);
 var FilingsService = (function (_super) {
     __extends(FilingsService, _super);
     function FilingsService() {
@@ -69287,6 +69317,51 @@ var FilingsService = (function (_super) {
     return FilingsService;
 }(django_api_1.DjangoAPIService));
 exports.FilingsService = FilingsService;
+
+
+/***/ }),
+/* 81 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var models_1 = __webpack_require__(18);
+var django_api_1 = __webpack_require__(19);
+var DocumentsService = (function (_super) {
+    __extends(DocumentsService, _super);
+    function DocumentsService() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this._documents = [];
+        return _this;
+    }
+    DocumentsService.prototype.initialize = function () {
+        this.url = '/api/filing-documents/';
+    };
+    Object.defineProperty(DocumentsService.prototype, "documents", {
+        get: function () { return this._documents; },
+        enumerable: true,
+        configurable: true
+    });
+    DocumentsService.prototype.processResults = function (results) {
+        for (var _i = 0, results_1 = results; _i < results_1.length; _i++) {
+            var result = results_1[_i];
+            this._documents.push(new models_1.Document(result));
+        }
+    };
+    return DocumentsService;
+}(django_api_1.DjangoAPIService));
+exports.DocumentsService = DocumentsService;
 
 
 /***/ })

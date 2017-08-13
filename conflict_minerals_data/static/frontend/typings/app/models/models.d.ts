@@ -11,15 +11,16 @@ export declare class Company implements ICompany {
 }
 export declare class Filing implements IFiling {
     id: number;
-    filing_type: string;
-    sec_accession_number: string;
     company_id: number;
     company: Company;
     date: Date;
+    filing_type: string;
     link: string;
+    documents: IDocument[];
+    sec_accession_number: string;
     constructor(result: any);
 }
-export declare class FilingDocument implements IDocument {
+export declare class Document implements IDocument {
     id: number;
     filing_id: number;
     filing: IFiling;
@@ -30,4 +31,5 @@ export declare class FilingDocument implements IDocument {
     doc_name: string;
     doc_url: string;
     doc_format: string;
+    constructor(result: any);
 }

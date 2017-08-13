@@ -1,4 +1,5 @@
 import {
+  Document,
   IDocument,
 } from '../models';
 
@@ -8,14 +9,17 @@ import {
 
 export 
 class DocumentsService extends DjangoAPIService {
-  documents: IDocument[] = [];
+  private _documents: Document[] = [];
 
   initialize() {
     this.url = '/api/filing-documents/'
   }
 
-  protected processResults(results: IDocument[]) {
-    this.documents = this.documents.concat(results)
-  }
+  get documents() { return this._documents; }
 
+  protected processResults(results: IDocument[]) {
+    for ( let result of results ) {
+      this._documents.push(new Document(result))
+    }
+  }
 }

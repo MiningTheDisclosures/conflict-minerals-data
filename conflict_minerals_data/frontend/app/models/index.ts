@@ -27,12 +27,13 @@ interface ICompanyResponse extends IDjangoAPIResponse {
 export
 interface IFiling {
   id: number;
-  filing_type: string;
-  sec_accession_number: string;
   company_id: number
   company: ICompany;
   date: Date;
+  filing_type: string;
   link: string;
+  documents: IDocument[];
+  sec_accession_number: string;
 }
 
 export
@@ -61,4 +62,4 @@ interface IDocumentResponse extends IDjangoAPIResponse {
 
 export import Company = models.Company;
 export import Filing = models.Filing;
-export import FilingDocument = models.FilingDocument;
+export import Document = models.Document;

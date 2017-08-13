@@ -31,12 +31,13 @@ class Company implements ICompany {
 export
 class Filing implements IFiling {
   id: number;
-  filing_type: string;
-  sec_accession_number: string;
   company_id: number;
   company: Company;
   date: Date;
+  filing_type: string;
   link: string;
+  documents: IDocument[];
+  sec_accession_number: string;
 
   constructor(result: any) {
     this.id = parseInt(result.id);
@@ -49,7 +50,7 @@ class Filing implements IFiling {
 }
 
 export
-class FilingDocument implements IDocument {
+class Document implements IDocument {
   id: number;
   filing_id: number;
   filing: IFiling; 
@@ -60,4 +61,16 @@ class FilingDocument implements IDocument {
   doc_name: string;
   doc_url: string;
   doc_format: string;
+
+  constructor(result: any) {
+    this.id = parseInt(result.id);
+    this.filing_id = parseInt(result.filing);
+    this.seq = parseInt(result.seq);
+    this.description = result.description;
+    this.doc_type = result.doc_type;
+    this.doc_size = result.doc_size;
+    this.doc_name = result.doc_name;
+    this.doc_url = result.doc_url;
+    this.doc_format = result.doc_format;
+  }
 }

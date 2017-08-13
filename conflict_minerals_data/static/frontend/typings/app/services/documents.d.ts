@@ -1,7 +1,8 @@
-import { IDocument } from '../models';
+import { Document, IDocument } from '../models';
 import { DjangoAPIService } from './django_api';
 export declare class DocumentsService extends DjangoAPIService {
-    documents: IDocument[];
+    private _documents;
     initialize(): void;
+    readonly documents: Document[];
     protected processResults(results: IDocument[]): void;
 }
