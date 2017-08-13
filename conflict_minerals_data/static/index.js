@@ -69037,7 +69037,7 @@ var DocumentsByYear = (function () {
     };
     DocumentsByYear = __decorate([
         core_1.Component({
-            template: "\n  <ol>\n    <li *ngFor=\"let filing of filings\">\n      {{ filing.company.conformed_name }} - <a href=\"{{ filing.link }}\">{{ filing.date }}</a>\n    </li>\n  </ol>\n  ",
+            template: "\n  <ul>\n    <li *ngFor=\"let filing of filings\">\n      {{ filing.company.conformed_name | titlecase }} - <a href=\"{{ filing.link }}\">{{ filing.date | date:'MM-dd-yyyy'}}</a>\n    </li>\n  </ul>\n  ",
             providers: [
                 companies_1.CompaniesService,
                 filings_1.FilingsService

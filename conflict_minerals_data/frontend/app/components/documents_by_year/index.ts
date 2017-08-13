@@ -23,11 +23,11 @@ import {
 
 @Component({
   template: `
-  <ol>
+  <ul>
     <li *ngFor="let filing of filings">
-      {{ filing.company.conformed_name }} - <a href="{{ filing.link }}">{{ filing.date }}</a>
+      {{ filing.company.conformed_name | titlecase }} - <a href="{{ filing.link }}">{{ filing.date | date:'MM-dd-yyyy'}}</a>
     </li>
-  </ol>
+  </ul>
   `,
   providers: [
     CompaniesService, 
