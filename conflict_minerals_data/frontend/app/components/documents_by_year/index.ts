@@ -50,18 +50,35 @@ class DocumentsByYear {
   }
   get filings(): IFiling[] {
     // Get the filings for the active year
-    let activeFilings = this.filingsService.filings.filter(
+    return this.filingsService.filings.filter(
       (item, i, all) => {
         return item.date.getFullYear() == this.year;
       }
-    );
+    )
     // Add the company on
-    activeFilings.map(
+    .map(
       (item, i, all) => {
         item.company = this.companies.get(item.company_id) || new Company({});
+        return item;
       }
     )
-    return activeFilings;
+    // Sort by the company name
+    .sort(
+      (a, b) => {
+        let compA = a.company && a.company.conformed_name ? a.company.conformed_name : 'Undefined';
+        let compB = b.company && b.company.conformed_name ? b.company.conformed_name : 'Undefined';
+        compA.toUpperCase();
+        compB.toUpperCase();
+
+        let comparison = 0;
+        if (compA > compB) {
+          comparison = 1;
+        } else if (compA < compB) {
+          comparison = -1;
+        }
+        return comparison;
+      }
+    );
   }
   
   ngOnInit(): void {

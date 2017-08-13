@@ -3,6 +3,7 @@ from django.db import models
 
 from bs4 import BeautifulSoup
 
+
 class EdgarSearch(models.Model):
     class Meta:
         verbose_name_plural = 'Edgar Requests'
