@@ -19,21 +19,31 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.css$/,
-        use: [
-          'style-loader',
-          'css-loader'
-        ],
+      test: /\.scss$/,
+      exclude: /node_modules/,
+      loaders: ['raw-loader', 'sass-loader'] // sass-loader not scss-loader
       },
-      { 
+      {
+        test: /\.css$/,
+        use: [ 'to-string-loader', 'style-loader', 'css-loader' ],
+      },
+      {
         test: /\.html$/,
-        loader: 'raw-loader',
+        use: 'raw-loader',
+        exclude: [root('static/index.html')]
       },
       {
         test: /\.ts?$/,
-        loaders: ['ts-loader', 'angular2-template-loader'],
-        exclude: /node_modules/
-      }
+        use: ['ts-loader', 'angular2-template-loader'],
+      },
+      {
+        test: /\.(eot|woff2?|svg|ttf)([\?]?.*)$/,
+        use: 'file-loader'
+      },
+      {
+        test: /\.(jpg|png|gif)$/,
+        use: 'file-loader'
+      },
     ]
   },
   resolve: {
@@ -46,7 +56,7 @@ module.exports = {
       /angular(\\|\/)core(\\|\/)@angular/,
       root('./frontend'),
       {} // a map of your routes
-    )
+    ),
   ],
   watchOptions: {
     ignored: [/node_modules/, /static/]

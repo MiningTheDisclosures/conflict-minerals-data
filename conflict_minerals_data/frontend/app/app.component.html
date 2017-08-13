@@ -1,9 +1,8 @@
 <md-toolbar color="primary">
   <span>Conflict Minerals Data</span>
+  <span class="spacer"></span>
+  <button md-icon-button routerLink="."><md-icon>home</md-icon></button>
 </md-toolbar>
-<nav>
-    <a routerLink="/companies-by-year/2017" routerLinkActive="active">2017</a>
-    <a routerLink="/companies-by-year/2016" routerLinkActive="active">2016</a>
-    <a routerLink="/companies-by-year/2015" routerLinkActive="active">2015</a>
-</nav>
-<router-outlet></router-outlet>
+<div class="content">
+<router-outlet> </router-outlet>
+</div>

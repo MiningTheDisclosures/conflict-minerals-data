@@ -21,16 +21,7 @@ import {
 } from '../../models';
 
 @Component({
-  template: `
-  <ul>
-    <li *ngFor="let filing of filings">
-      {{ filing.company.conformed_name | titlecase }} - <a href="{{ filing.link }}">{{ filing.date | date:'MM-dd-yyyy'}}</a>
-      <div *ngFor="let doc of filing.documents">
-        {{ doc.doc_type }}
-      </div>
-    </li>
-  </ul>
-  `,
+  templateUrl: './index.html',
   providers: [
     CompaniesService, 
     DocumentsService,
