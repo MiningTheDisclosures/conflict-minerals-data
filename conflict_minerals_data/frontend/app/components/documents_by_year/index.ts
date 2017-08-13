@@ -3,8 +3,13 @@ import {
 } from '@angular/cdk';
 
 import { 
-  Component 
+  Component,
+  ViewChild,
 } from '@angular/core';
+
+import {
+  MdSort
+} from '@angular/material';
 
 import { 
   ActivatedRoute,
@@ -18,6 +23,8 @@ import {
 import {
   Observable
 } from 'rxjs/Observable';
+
+import 'rxjs/add/observable/merge';
 
 import {
   CompaniesService,
@@ -33,7 +40,8 @@ import {
 } from '../../models';
 
 @Component({
-  templateUrl: './index.html',
+  templateUrl: 'index.html',
+  styleUrls: ['index.css', ],
   providers: [
     CompaniesService, 
     DocumentsService,
@@ -47,6 +55,8 @@ class DocumentsByYear {
   data: DocumentsData  
   dataSource: DocumentsSource | null;
 
+  @ViewChild(MdSort) sort: MdSort;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private companiesService: CompaniesService,
@@ -57,7 +67,7 @@ class DocumentsByYear {
   }
 
   ngOnInit() {
-    this.dataSource = new DocumentsSource(this.data);
+    this.dataSource = new DocumentsSource(this.data, this.sort);
     this.companiesService.getResults({});
     this.activatedRoute.params.subscribe((params: Params) => {
       this.data.year = parseFloat(params.year);
@@ -104,23 +114,6 @@ class DocumentsData {
       }
     )
     this.dataChange.next(processedFilings);
-    // Sort by the company name
-    // .sort(
-    //   (a, b) => {
-    //     let compA = a.company && a.company.conformed_name ? a.company.conformed_name : 'Undefined';
-    //     let compB = b.company && b.company.conformed_name ? b.company.conformed_name : 'Undefined';
-    //     compA.toUpperCase();
-    //     compB.toUpperCase();
-
-    //     let comparison = 0;
-    //     if (compA > compB) {
-    //       comparison = 1;
-    //     } else if (compA < compB) {
-    //       comparison = -1;
-    //     }
-    //     return comparison;
-    //   }
-    // );
   }
 
   set params(value: Params) {
@@ -129,12 +122,57 @@ class DocumentsData {
 
 
 export class DocumentsSource extends DataSource<any> {
-  constructor(private _data: DocumentsData) {
+  constructor(
+    private _data: DocumentsData,
+    private _sort: MdSort 
+  ) {
     super();
   }
-  /** Connect function called by the table to retrieve one stream containing the data to render. */
+  
   connect(): Observable<IFiling[]> {
-    return this._data.dataChange;
+    return Observable.merge(this._data.dataChange, this._sort.mdSortChange).map(
+      () => { return this.getSortedData(); }
+    );
   }
+
   disconnect() {}
+
+  private getSortedData(): IFiling[] {
+    const data = this._data.dataChange.value.slice();
+    if (!this._sort.active || this._sort.direction == '') { 
+      // Sort by companyName by default
+      return data.sort(this.compareCompanyName);
+    }
+    if (this._sort.active == 'companyName') {
+      return data.sort(this.compareCompanyName);
+    }
+    return data.sort((a, b) => {
+      let propertyA: number|string|Date = '';
+      let propertyB: number|string|Date = '';
+
+      switch (this._sort.active) {
+        case 'filingDate': [propertyA, propertyB] = [a.date, b.date]; break;
+      }
+
+      let valueA = isNaN(+propertyA) ? propertyA : +propertyA;
+      let valueB = isNaN(+propertyB) ? propertyB : +propertyB;
+
+      return (valueA < valueB ? -1 : 1) * (this._sort.direction == 'asc' ? 1 : -1);
+    });
+  }
+  
+  private compareCompanyName(a: IFiling, b: IFiling) {
+    let compA = a.company && a.company.conformed_name ? a.company.conformed_name : 'Undefined';
+    let compB = b.company && b.company.conformed_name ? b.company.conformed_name : 'Undefined';
+    compA.toUpperCase();
+    compB.toUpperCase();
+
+    let comparison = 0;
+    if (compA > compB) {
+      comparison = 1;
+    } else if (compA < compB) {
+      comparison = -1;
+    }
+    return comparison;
+  }
 }

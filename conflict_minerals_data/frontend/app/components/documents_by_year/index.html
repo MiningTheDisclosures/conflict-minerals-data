@@ -1,10 +1,10 @@
-<md-table #table [dataSource]="dataSource">
+<md-table #table [dataSource]="dataSource" mdSort>
 
   <!--- Note that these columns can be defined in any order.
         The actual rendered columns are set as a property on the row definition" -->
 
   <ng-container cdkColumnDef="companyName">
-      <md-header-cell *cdkHeaderCellDef> Company </md-header-cell>
+      <md-header-cell *cdkHeaderCellDef md-sort-header> Company </md-header-cell>
       <md-cell *cdkCellDef="let row"> {{row.company.conformed_name}} </md-cell>
     </ng-container>
 
@@ -14,7 +14,7 @@
     </ng-container>
 
     <ng-container cdkColumnDef="filingDate">
-      <md-header-cell *cdkHeaderCellDef> Filing Date </md-header-cell>
+      <md-header-cell *cdkHeaderCellDef md-sort-header> Filing Date </md-header-cell>
       <md-cell *cdkCellDef="let row"> {{ row.date | date:'yyyy-MM-dd' }} </md-cell>
     </ng-container>
 

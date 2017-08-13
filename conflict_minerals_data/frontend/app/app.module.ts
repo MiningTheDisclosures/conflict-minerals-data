@@ -16,6 +16,7 @@ import {
   MdCardModule,
   MdIconModule,
   MdInputModule,
+  MdSortModule,
   MdTableModule,
   MdToolbarModule,
 } from '@angular/material';
@@ -76,6 +77,7 @@ if (!/localhost/.test(document.location.host)) {
     MdCardModule,
     MdIconModule,
     MdInputModule,
+    MdSortModule,
     MdTableModule,
     MdToolbarModule,
   ],

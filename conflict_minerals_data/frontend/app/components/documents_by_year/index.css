@@ -1,0 +1,4 @@
+.mat-table {
+  /* No idea why this didn't work by default */
+  font-family: Roboto,"Helvetica Neue",sans-serif;
+}
