@@ -1,4 +1,8 @@
 import { 
+  BehaviorSubject
+} from 'rxjs/BehaviorSubject';
+
+import { 
   Injectable 
 } from '@angular/core';
 
@@ -26,6 +30,10 @@ import {
 @Injectable()
 export 
 class DjangoAPIService {
+  // A dataChange event that we emit after processing results 
+  // I'm sure there's a cleaner way to do this where people can just subscribe
+  // to the data. But this works for now.
+  dataChange: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   retrieved: Params[] = [];
   url: string;
 
@@ -43,7 +51,7 @@ class DjangoAPIService {
     // SubClass should save results here
   }
 
-  getResults(params: Params) {
+  getResults(params: Params): void {
     let existingGets = this.retrieved.filter(
       (item, i, array) => {
         return item.page == params.page && item.year == params.year;  
@@ -57,6 +65,7 @@ class DjangoAPIService {
     this.getResponse(this.url, params).subscribe(
       (data) => {
         this.processResults(data.results);
+        this.dataChange.next(0);
         if ( data.next ) {
           let nextParams = this.getParamsFromUrl(data.next)
           this.getResults(nextParams);

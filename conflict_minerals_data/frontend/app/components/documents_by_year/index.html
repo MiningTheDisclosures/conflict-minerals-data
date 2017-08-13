@@ -1,3 +1,46 @@
+<md-table #table [dataSource]="dataSource">
+
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+  <ng-container cdkColumnDef="companyName">
+      <md-header-cell *cdkHeaderCellDef> Company </md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{row.company.conformed_name}} </md-cell>
+    </ng-container>
+
+    <ng-container cdkColumnDef="filingLink">
+      <md-header-cell *cdkHeaderCellDef> Filing Link </md-header-cell>
+      <md-cell *cdkCellDef="let row"> <a href="{{row.link}}">Go to Filing</a> </md-cell>
+    </ng-container>
+
+    <ng-container cdkColumnDef="filingDate">
+      <md-header-cell *cdkHeaderCellDef> Filing Date </md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{ row.date | date:'yyyy-MM-dd' }} </md-cell>
+    </ng-container>
+
+    <!-- Company Link Column 
+    <ng-container cdkColumnDef="companyLink">
+      <md-header-cell *cdkHeaderCellDef> Company Link </md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{row.company_link}}% </md-cell>
+    </ng-container>
+    -->
+
+    <!-- Document Type Column -->
+    <ng-container cdkColumnDef="docType">
+      <md-header-cell *cdkHeaderCellDef> Document Type </md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{row.document.type}} </md-cell>
+    </ng-container>
+
+    <!-- Document Link Column -->
+    <ng-container cdkColumnDef="docLink">
+      <md-header-cell *cdkHeaderCellDef> Document Link </md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{row.document.link}} </md-cell>
+    </ng-container>
+
+    <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
+    <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
+  </md-table>
+
 <ul>
   <li *ngFor="let filing of filings">
     {{ filing.company.conformed_name | titlecase }} - <a href="{{ filing.link }}">{{ filing.date | date:'MM-dd-yyyy'}}</a>

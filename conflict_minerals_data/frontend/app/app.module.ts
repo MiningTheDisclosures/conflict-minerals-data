@@ -1,3 +1,7 @@
+import {
+  CdkTableModule
+} from '@angular/cdk';
+
 import { 
   enableProdMode,
   NgModule
@@ -11,6 +15,7 @@ import {
   MdButtonModule,
   MdCardModule,
   MdIconModule,
+  MdInputModule,
   MdTableModule,
   MdToolbarModule,
 } from '@angular/material';
@@ -66,9 +71,11 @@ if (!/localhost/.test(document.location.host)) {
     HttpModule,
     RouterModule.forRoot(appRoutes),
     // Material components
+    CdkTableModule,
     MdButtonModule,
     MdCardModule,
     MdIconModule,
+    MdInputModule,
     MdTableModule,
     MdToolbarModule,
   ],
