@@ -10,13 +10,21 @@
 
 .app-tools {
   display: flex;
-  align-items: center;
+  flex-direction: row;
+  align-items: top;
+}
+
+.mat-input-underline { 
+  margin-bottom: -2px; 
 }
 
 .app-tools .mat-input-container {
-  margin-top: 0.1rem;
   margin-right: 2rem;
   width: 18rem;
+}
+
+.app-tools .mat-select {
+  margin-top: 8px;
 }
 
 .app-documents-cell {
