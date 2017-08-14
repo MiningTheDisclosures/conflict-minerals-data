@@ -40,6 +40,19 @@ import {
   IFiling,
 } from '../../models';
 
+let lowerStringSort = (compA: string, compB: string) => {
+  compA.toLowerCase();
+  compB.toLowerCase();
+
+  let comparison = 0;
+  if (compA > compB) {
+  comparison = 1;
+  } else if (compA < compB) {
+  comparison = -1;
+  }
+  return comparison;
+}
+
 @Component({
   templateUrl: 'index.html',
   styleUrls: ['index.css', ],
@@ -162,7 +175,11 @@ class DocumentsData {
         filing.documents = this.documents.filter(
           (document, i, all) => {
             return document.filing_id == filing.id
-          }) || [];
+          }).sort(
+            (a, b) => {
+              return lowerStringSort(a.description, b.description);
+            }
+          ) || [];
         return filing;
       }
     )
@@ -174,7 +191,7 @@ class DocumentsData {
 export class DocumentsSource extends DataSource<any> {
   constructor(
     private _data: DocumentsData,
-    private _sort: MdSort 
+    private _sort: MdSort,
   ) {
     super();
   }
@@ -214,15 +231,7 @@ export class DocumentsSource extends DataSource<any> {
   private compareCompanyName(a: IFiling, b: IFiling) {
     let compA = a.company && a.company.conformed_name ? a.company.conformed_name : 'Undefined';
     let compB = b.company && b.company.conformed_name ? b.company.conformed_name : 'Undefined';
-    compA.toUpperCase();
-    compB.toUpperCase();
-
-    let comparison = 0;
-    if (compA > compB) {
-      comparison = 1;
-    } else if (compA < compB) {
-      comparison = -1;
-    }
-    return comparison;
+    return lowerStringSort(compA, compB);
   }
+
 }
