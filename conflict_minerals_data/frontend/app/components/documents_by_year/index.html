@@ -1,3 +1,9 @@
+<div class="app-tools">
+  <span class="app-spacer"></span>
+  <md-select placeholder="year" [(ngModel)]="data.year" floatPlaceholder="never">
+      <md-option *ngFor="let year of years" [value]="year">{{ year }}</md-option>
+  </md-select>
+</div>
 <md-table #table [dataSource]="dataSource" mdSort>
 
   <!--- Note that these columns can be defined in any order.

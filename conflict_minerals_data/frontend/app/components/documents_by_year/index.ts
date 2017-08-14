@@ -26,6 +26,8 @@ import {
 
 import 'rxjs/add/observable/merge';
 
+import { Globals } from '../../globals';
+
 import {
   CompaniesService,
   DocumentsService,
@@ -62,24 +64,23 @@ class DocumentsByYear {
     private companiesService: CompaniesService,
     private documentsService: DocumentsService,
     private filingsService: FilingsService,
+    private globals: Globals
   ) { 
     this.data = new DocumentsData(this.companiesService, this.documentsService, this.filingsService);
   }
 
+  get years() { return this.globals.YEARS }
+
   ngOnInit() {
     this.dataSource = new DocumentsSource(this.data, this.sort);
     this.companiesService.getResults({});
-    this.activatedRoute.params.subscribe((params: Params) => {
-      this.data.year = parseFloat(params.year);
-      this.filingsService.getResults(params);
-      this.documentsService.getResults(params);
-    });
+    this.data.year = 2017;
   }
 }
 
 export
 class DocumentsData { 
-  year: number;
+  _year: number;
   dataChange: BehaviorSubject<IFiling[]> = new BehaviorSubject<IFiling[]>([]);
  
   constructor(
@@ -94,6 +95,14 @@ class DocumentsData {
 
   get companies(): Map<number, ICompany> { return this.companiesService.companies; }
   get documents(): IDocument[] { return this.documentsService.documents; }
+  get year(): number { return this._year; }
+  set year(value: number) {
+    this._year = value;
+    this.filingsService.getResults({year: value});
+    this.documentsService.getResults({year: value});
+    this.dataChange.next([]);
+  }
+
 
   private processFilings(): void {
     // Get the filings for the active year
@@ -116,8 +125,6 @@ class DocumentsData {
     this.dataChange.next(processedFilings);
   }
 
-  set params(value: Params) {
-  }
 }
 
 

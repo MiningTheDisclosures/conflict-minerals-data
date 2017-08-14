@@ -1,9 +1,10 @@
-<md-card class="nav-card">
+<md-card class="app-nav-card">
   <md-card-content>
     <h2 class="mat-title">Documents by Year</h2>
     <p> An overview of the SD documents filed for a given year. </p>
   </md-card-content>
-  <md-card-actions >
-    <button *ngFor="let year of years" md-button routerLink="/companies-by-year/{{year}}">{{ year }}</button>
+  <md-card-actions>
+    <span class="app-spacer"></span>
+    <button md-button routerLink="/documents-by-year/">View</button>
   </md-card-actions>
 </md-card>

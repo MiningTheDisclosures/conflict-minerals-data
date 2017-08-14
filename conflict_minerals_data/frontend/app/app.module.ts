@@ -8,6 +8,10 @@ import {
 } from '@angular/core';
 
 import { 
+  FormsModule 
+} from '@angular/forms';
+
+import { 
   HttpModule 
 } from '@angular/http';
 
@@ -16,6 +20,7 @@ import {
   MdCardModule,
   MdIconModule,
   MdInputModule,
+  MdSelectModule,
   MdSortModule,
   MdTableModule,
   MdToolbarModule,
@@ -48,7 +53,7 @@ import {
 } from './globals';
 
 const appRoutes: Routes = [
-   { path: 'companies-by-year/:year', component: DocumentsByYear },
+   { path: 'documents-by-year', component: DocumentsByYear },
    { path: '', component: Home },
 ]
 
@@ -68,6 +73,7 @@ if (!/localhost/.test(document.location.host)) {
   ],
   imports: [ 
     BrowserModule,
+    FormsModule,
     BrowserAnimationsModule,
     HttpModule,
     RouterModule.forRoot(appRoutes),
@@ -77,6 +83,7 @@ if (!/localhost/.test(document.location.host)) {
     MdCardModule,
     MdIconModule,
     MdInputModule,
+    MdSelectModule,
     MdSortModule,
     MdTableModule,
     MdToolbarModule,

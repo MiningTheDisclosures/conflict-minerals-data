@@ -1,3 +1,7 @@
-.nav-card {
+.app-nav-card md-card-actions {
+  display: flex;
+}
+
+.app-nav-card {
   width: 400px;
 }
