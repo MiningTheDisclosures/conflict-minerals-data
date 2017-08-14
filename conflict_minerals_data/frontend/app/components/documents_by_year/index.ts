@@ -11,11 +11,6 @@ import {
   MdSort
 } from '@angular/material';
 
-import { 
-  ActivatedRoute,
-  Params
-} from '@angular/router';
-
 import {
   BehaviorSubject
 } from 'rxjs/BehaviorSubject';
@@ -60,7 +55,6 @@ class DocumentsByYear {
   @ViewChild(MdSort) sort: MdSort;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
     private companiesService: CompaniesService,
     private documentsService: DocumentsService,
     private filingsService: FilingsService,
