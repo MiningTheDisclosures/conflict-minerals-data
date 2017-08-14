@@ -32,7 +32,20 @@
   flex-direction: column;
 }
 
-.mat-column-companyName { flex: 2 !important; }
+.mat-column-companyName { flex: 1 !important; }
 .mat-column-filingLink { flex: 1 !important; }
 .mat-column-filingDate { flex: 1 !important; }
-.mat-column-documents { flex: 3 !important; }
+.mat-column-documents { flex: 2 !important; }
+.mat-column-documentLinks { flex: 4 !important; }
+
+.mat-column-documentLinks {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.mat-column-documentLinks .app-link-wrapper {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-overflow: ellipsis;
+}

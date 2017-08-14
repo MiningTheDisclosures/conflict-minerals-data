@@ -38,6 +38,7 @@ class Filing implements IFiling {
   link: string;
   documents: IDocument[];
   sec_accession_number: string;
+  extracted_urls: string[];
 
   constructor(result: any) {
     this.id = parseInt(result.id);
@@ -46,6 +47,7 @@ class Filing implements IFiling {
     this.company_id = parseInt(result.company);
     this.date = new Date(result.date);
     this.link = result.link;
+    this.extracted_urls = result.extracted_urls;
   }
 }
 

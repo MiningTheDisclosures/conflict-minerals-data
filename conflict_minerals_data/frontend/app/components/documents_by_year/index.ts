@@ -65,7 +65,13 @@ let lowerStringSort = (compA: string, compB: string) => {
 })
 export
 class DocumentsByYear {
-  displayedColumns = ['companyName', 'filingLink', 'filingDate', 'documents'];
+  displayedColumns = [
+    'companyName', 
+    'filingLink', 
+    'filingDate', 
+    'documents', 
+    'documentLinks'
+  ];
   data: DocumentsData  
   dataSource: DocumentsSource | null;
 

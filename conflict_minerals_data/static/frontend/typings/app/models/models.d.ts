@@ -18,6 +18,7 @@ export declare class Filing implements IFiling {
     link: string;
     documents: IDocument[];
     sec_accession_number: string;
+    extracted_urls: string[];
     constructor(result: any);
 }
 export declare class Document implements IDocument {

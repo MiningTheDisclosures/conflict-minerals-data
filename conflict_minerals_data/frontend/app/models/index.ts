@@ -34,6 +34,7 @@ interface IFiling {
   link: string;
   documents: IDocument[];
   sec_accession_number: string;
+  extracted_urls: string[];
 }
 
 export
