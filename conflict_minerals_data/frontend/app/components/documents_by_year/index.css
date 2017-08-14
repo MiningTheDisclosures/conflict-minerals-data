@@ -31,3 +31,8 @@
   display: flex;
   flex-direction: column;
 }
+
+.mat-column-companyName { flex: 2 !important; }
+.mat-column-filingLink { flex: 1 !important; }
+.mat-column-filingDate { flex: 1 !important; }
+.mat-column-documents { flex: 3 !important; }
