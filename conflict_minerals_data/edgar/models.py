@@ -1,3 +1,4 @@
+from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError
 from django.db import models
 
@@ -159,6 +160,12 @@ class EdgarDocumentContent(models.Model):
     document = models.ForeignKey(EdgarSDFilingDocument, on_delete=models.CASCADE)
     binary = models.BinaryField(blank=True, null=True)
     text = models.TextField(blank=True)
+    # Stuff we store about the content
+    urls = ArrayField(
+        models.TextField(blank=True), 
+        blank=True, null=True,
+        help_text='URL we parsed out of the content'
+    )
 
     def __str__(self):
         return self.document.doc_name
