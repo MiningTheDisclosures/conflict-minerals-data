@@ -149,7 +149,7 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PERMISSION_CLASSES': [
     ],
-    'PAGE_SIZE': 50
+    'PAGE_SIZE': 500
 }
 
 # ADMIN

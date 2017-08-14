@@ -117,9 +117,13 @@ class DocumentsData {
     private documentsService: DocumentsService,
     private filingsService: FilingsService,
   ) { 
-    this.companiesService.dataChange.subscribe(() => this.buildTableData());
-    this.filingsService.dataChange.subscribe(() => this.buildTableData());
-    this.documentsService.dataChange.subscribe(() => this.buildTableData());
+    Observable.merge(
+      this.companiesService.dataChange, 
+      this.documentsService.dataChange,
+      this.filingsService.dataChange)
+    .debounceTime(100)
+    .subscribe(
+      () => { this.buildTableData(); });
   }
 
   get companies(): Map<number, ICompany> { return this.companiesService.companies; }

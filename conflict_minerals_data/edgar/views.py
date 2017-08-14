@@ -54,6 +54,6 @@ class EdgarSDFilingDocumentFilter(filters.FilterSet):
 
 
 class EdgarSDFilingDocumentListView(generics.ListAPIView):
-    queryset = EdgarSDFilingDocument.objects.all()
+    queryset = EdgarSDFilingDocument.objects.all().order_by('id')
     serializer_class = EdgarSDFilingDocumentSerializer
     filter_class = EdgarSDFilingDocumentFilter
