@@ -3,6 +3,16 @@
   font-family: Roboto,"Helvetica Neue",sans-serif;
 }
 
+.documents-table .mat-row {
+  height: inherit;
+  padding: 1rem 2rem;
+}
+
 .app-tools {
   display: flex;
+}
+
+.app-documents-cell {
+  display: flex;
+  flex-direction: column;
 }

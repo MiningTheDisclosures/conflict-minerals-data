@@ -48,7 +48,7 @@ import {
 })
 export
 class DocumentsByYear {
-  displayedColumns = ['companyName', 'filingLink', 'filingDate']; //, 'docType', 'docLink'];
+  displayedColumns = ['companyName', 'filingLink', 'filingDate', 'documents'];
   data: DocumentsData  
   dataSource: DocumentsSource | null;
 

@@ -6,6 +6,10 @@ body {
     margin: 0;
 }
 
+a {
+    color: #009688;
+}
+
 .app-content {
     padding: 1rem;
 }

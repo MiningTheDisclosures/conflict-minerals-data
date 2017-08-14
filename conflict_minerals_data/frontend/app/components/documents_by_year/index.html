@@ -4,7 +4,7 @@
       <md-option *ngFor="let year of years" [value]="year">{{ year }}</md-option>
   </md-select>
 </div>
-<md-table #table [dataSource]="dataSource" mdSort>
+<md-table class="documents-table" #table [dataSource]="dataSource" mdSort>
 
   <!--- Note that these columns can be defined in any order.
         The actual rendered columns are set as a property on the row definition" -->
@@ -31,16 +31,14 @@
     </ng-container>
     -->
 
-    <!-- Document Type Column -->
-    <ng-container cdkColumnDef="docType">
-      <md-header-cell *cdkHeaderCellDef> Document Type </md-header-cell>
-      <md-cell *cdkCellDef="let row"> {{row.document.type}} </md-cell>
-    </ng-container>
-
-    <!-- Document Link Column -->
-    <ng-container cdkColumnDef="docLink">
-      <md-header-cell *cdkHeaderCellDef> Document Link </md-header-cell>
-      <md-cell *cdkCellDef="let row"> {{row.document.link}} </md-cell>
+    <-- Documents -->
+    <ng-container cdkColumnDef="documents">
+      <md-header-cell *cdkHeaderCellDef> Documents </md-header-cell>
+      <md-cell class="app-documents-cell" *cdkCellDef="let row"> 
+        <div *ngFor="let doc of row.documents">
+          <a href="{{ doc.doc_url }}">{{ doc.description }}</a>
+        </div>
+      </md-cell>
     </ng-container>
 
     <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
