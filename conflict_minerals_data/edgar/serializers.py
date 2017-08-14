@@ -22,6 +22,7 @@ class EdgarCompanyListSerializer(serializers.ModelSerializer):
 
 
 class EdgarSDFilingSerializer(serializers.ModelSerializer):
+    extracted_urls = serializers.ReadOnlyField()
     class Meta:
         model = EdgarSDFiling
         fields = '__all__'

@@ -1,8 +1,14 @@
+from itertools import chain
+from toolz import filter, unique
+
 from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError
 from django.db import models
 
 from bs4 import BeautifulSoup
+
+def compact(iter):
+    return filter(None, iter)
 
 
 class EdgarSearch(models.Model):
@@ -57,6 +63,15 @@ class EdgarSDFiling(models.Model):
         return '{company} - {date:%Y} ({type})'.format(
             type=self.filing_type, date=self.date, company=self.company
         )
+
+    @property
+    def extracted_urls(self):
+        docs = self.edgarsdfilingdocument_set.all()
+        urls = docs.values_list('edgardocumentcontent__urls', flat=True)
+        compacted = compact(urls)
+        flattened = chain.from_iterable(compacted)
+        unique_urls = unique(flattened)
+        return list(unique_urls)
 
     @property
     def year(self):
