@@ -29,6 +29,7 @@ export declare class DocumentsData {
     private documentsService;
     private filingsService;
     _year: number;
+    filter: ElementRef;
     dataChange: BehaviorSubject<IFiling[]>;
     constructor(companiesService: CompaniesService, documentsService: DocumentsService, filingsService: FilingsService);
     readonly companies: Map<number, ICompany>;

@@ -74,6 +74,7 @@ class DocumentsByYear {
     this.dataSource = new DocumentsSource(this.data, this.sort);
     this.companiesService.getResults({});
     this.data.year = 2017;
+    this.data.filter = this.filter;
 
     // Add filtering
     Observable.fromEvent(this.filter.nativeElement, 'keyup')
@@ -89,6 +90,7 @@ class DocumentsByYear {
 export
 class DocumentsData { 
   _year: number;
+  filter: ElementRef;
   dataChange: BehaviorSubject<IFiling[]> = new BehaviorSubject<IFiling[]>([]);
  
   constructor(
@@ -106,11 +108,12 @@ class DocumentsData {
   get year(): number { return this._year; }
   set year(value: number) {
     this._year = value;
-    // When the year is set:
-    // * get data if necessary
-    // * get the table to re-render
     this.filingsService.getResults({year: value});
     this.documentsService.getResults({year: value});
+    if ( this.filter ) {
+      // Empty filter to avoid confusion
+      this.filter.nativeElement.value = '';
+    }
     this.buildTableData();
   }
 
