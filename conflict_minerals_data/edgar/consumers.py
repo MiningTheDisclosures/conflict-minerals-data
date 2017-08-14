@@ -2,8 +2,10 @@ import json
 from random import randint
 from time import sleep
 
+import toolz
 import feedparser
 import requests
+from urlextract import URLExtract
 
 from .models import (
     EdgarSearch,
@@ -159,3 +161,15 @@ def get_sd_filing_document_contents(message):
             content, _ = EdgarDocumentContent.objects.get_or_create(document=doc)
             content.text = response.content
             content.save()
+
+
+def extract_urls_from_document_contents(message):
+    extractor = URLExtract()
+    for pk in message.content.get('pks', []):
+        doc_content = EdgarDocumentContent.objects.get(pk=pk)
+        print(doc_content)
+        if doc_content.content:
+            urls = extractor.find_urls(doc_content.content)
+            unique_urls = toolz.unique(urls)
+            doc_content.urls = list(unique_urls)
+            doc_content.save()

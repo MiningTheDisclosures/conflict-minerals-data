@@ -46,8 +46,12 @@ def get_sd_filing_document_contents(_modeladmin, _request, queryset):
 get_sd_filing_document_contents.short_description = 'Get document contents'
 
 
+def extract_urls_from_document_contents(_modeladmin, _request, queryset):
+    _send_message(queryset, 'edgar.extract-urls-from-document-contents')
+extract_urls_from_document_contents.short_description = 'Extract URLs'
+
 class CompanyAdmin(admin.ModelAdmin):
-    list_display = ['conformed_name', 'ticker_symbol', 'cik']
+    list_display = ['id', 'conformed_name', 'ticker_symbol', 'cik']
     ordering = ['conformed_name']
     actions = [
         pull_company_info_using_ticker,
@@ -58,11 +62,11 @@ class CompanyAdmin(admin.ModelAdmin):
 
 
 class SearchAdmin(admin.ModelAdmin):
-    list_display = ['description', 'date_accessed']
+    list_display = ['id', 'description', 'date_accessed']
 
 
 class SDFilingAdmin(admin.ModelAdmin):
-    list_display = ['company', 'year', 'filing_type', 'sec_accession_number']
+    list_display = ['id', 'company', 'year', 'filing_type', 'sec_accession_number']
     ordering = ['company__conformed_name', '-date']
     list_filter = ['company__conformed_name']
 
@@ -72,12 +76,15 @@ class SDFilingAdmin(admin.ModelAdmin):
 
 
 class SDFilingDocumentAdmin(admin.ModelAdmin):
+    list_display = ['id', 'description', 'filing']
     actions = [
         get_sd_filing_document_contents
     ]
 
 class EdgarDocumentContentAdmin(admin.ModelAdmin):
+    list_display = ['id', 'document']
     actions = [
+        extract_urls_from_document_contents
     ]
 
 admin.site.register(EdgarSearch, SearchAdmin)
