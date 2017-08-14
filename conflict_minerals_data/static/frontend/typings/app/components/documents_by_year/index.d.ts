@@ -29,7 +29,7 @@ export declare class DocumentsData {
     readonly companies: Map<number, ICompany>;
     readonly documents: IDocument[];
     year: number;
-    private processFilings();
+    private buildTableData();
 }
 export declare class DocumentsSource extends DataSource<any> {
     private _data;

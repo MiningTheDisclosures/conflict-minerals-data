@@ -82,9 +82,9 @@ class DocumentsData {
     private documentsService: DocumentsService,
     private filingsService: FilingsService,
   ) { 
-    this.companiesService.dataChange.subscribe(() => this.processFilings());
-    this.filingsService.dataChange.subscribe(() => this.processFilings());
-    this.documentsService.dataChange.subscribe(() => this.processFilings());
+    this.companiesService.dataChange.subscribe(() => this.buildTableData());
+    this.filingsService.dataChange.subscribe(() => this.buildTableData());
+    this.documentsService.dataChange.subscribe(() => this.buildTableData());
   }
 
   get companies(): Map<number, ICompany> { return this.companiesService.companies; }
@@ -92,13 +92,15 @@ class DocumentsData {
   get year(): number { return this._year; }
   set year(value: number) {
     this._year = value;
+    // When the year is set:
+    // * get data if necessary
+    // * get the table to re-render
     this.filingsService.getResults({year: value});
     this.documentsService.getResults({year: value});
-    this.dataChange.next([]);
+    this.buildTableData();
   }
 
-
-  private processFilings(): void {
+  private buildTableData(): void {
     // Get the filings for the active year
     let processedFilings = this.filingsService.filings.filter(
       (item, i, all) => {
@@ -118,7 +120,6 @@ class DocumentsData {
     )
     this.dataChange.next(processedFilings);
   }
-
 }
 
 
