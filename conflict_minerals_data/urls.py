@@ -7,8 +7,6 @@ from conflict_minerals_data.edgar import views as edgar_views
 from conflict_minerals_data.auth import views as auth_views
 
 router = routers.DefaultRouter()
-router.register(r'companies', edgar_views.EdgarCompanyInfoViewSet)
-
 
 class App(TemplateView):
     template_name = 'app.html'
@@ -21,6 +19,7 @@ urlpatterns = [
     url(r'^app/', App.as_view()),
     # API
     url(r'^api/', include(router.urls)),
+    url(r'^api/companies/', edgar_views.EdgarCompanyInfoViewSet.as_view()),
     url(r'^api/companies-bulk/', edgar_views.EdgarCompanyInfoBulkView.as_view()),
     url(r'^api/filings/', edgar_views.EdgarSDFilingListView.as_view()),
     url(r'^api/filing-documents/', edgar_views.EdgarSDFilingDocumentListView.as_view()),

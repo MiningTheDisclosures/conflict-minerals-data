@@ -2,6 +2,8 @@ import django_filters
 from django_filters import rest_framework as filters
 
 from rest_framework import viewsets, generics
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework_bulk import ListBulkCreateUpdateDestroyAPIView
 
 from .models import (
@@ -17,11 +19,12 @@ from .serializers import (
 )
 
 
-class EdgarCompanyInfoViewSet(viewsets.ModelViewSet):
+class EdgarCompanyInfoViewSet(generics.ListAPIView):
     queryset = EdgarCompanyInfo.objects.all()
     serializer_class = EdgarCompanyInfoSerializer
 
 
+@permission_classes((IsAuthenticated, ))
 class EdgarCompanyInfoBulkView(ListBulkCreateUpdateDestroyAPIView):
     # Used for bulk changes
 
