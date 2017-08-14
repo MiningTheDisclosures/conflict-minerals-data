@@ -1,5 +1,9 @@
+
+
 <div class="app-tools">
-  <span class="app-spacer"></span>
+  <md-input-container class="app-spacer" floatPlaceholder="never">
+    <input mdInput #filter placeholder="Filter table">
+  </md-input-container>
   <md-select placeholder="year" [(ngModel)]="data.year" floatPlaceholder="never">
       <md-option *ngFor="let year of years" [value]="year">{{ year }}</md-option>
   </md-select>

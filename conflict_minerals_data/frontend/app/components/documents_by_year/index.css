@@ -1,4 +1,4 @@
-.mat-table {
+.mat-table, .mat-input-container {
   /* No idea why this didn't work by default */
   font-family: Roboto,"Helvetica Neue",sans-serif;
 }
@@ -10,6 +10,12 @@
 
 .app-tools {
   display: flex;
+  align-items: center;
+}
+
+.app-tools .mat-input-container {
+  margin-top: 0.1rem;
+  margin-right: 6rem;
 }
 
 .app-documents-cell {
