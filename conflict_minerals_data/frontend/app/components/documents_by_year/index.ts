@@ -4,6 +4,7 @@ import {
 
 import { 
   Component,
+  ElementRef,
   ViewChild,
 } from '@angular/core';
 
@@ -19,6 +20,9 @@ import {
   Observable
 } from 'rxjs/Observable';
 
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/observable/merge';
 
 import { Globals } from '../../globals';
@@ -53,6 +57,7 @@ class DocumentsByYear {
   dataSource: DocumentsSource | null;
 
   @ViewChild(MdSort) sort: MdSort;
+  @ViewChild('filter') filter: ElementRef;
 
   constructor(
     private companiesService: CompaniesService,
@@ -69,6 +74,15 @@ class DocumentsByYear {
     this.dataSource = new DocumentsSource(this.data, this.sort);
     this.companiesService.getResults({});
     this.data.year = 2017;
+
+    // Add filtering
+    Observable.fromEvent(this.filter.nativeElement, 'keyup')
+      .debounceTime(150)
+      .distinctUntilChanged()
+      .subscribe(() => {
+        if (!this.dataSource) { return; }
+        this.data.filterTableData(this.filter.nativeElement.value);
+      });
   }
 }
 
@@ -98,6 +112,30 @@ class DocumentsData {
     this.filingsService.getResults({year: value});
     this.documentsService.getResults({year: value});
     this.buildTableData();
+  }
+
+  filterTableData(query: string): void {
+    let filteredFilings = this.filingsService.filings.filter(
+      (item, i, all) => {
+        let queryString = query.toLowerCase();
+        let searchString: string = ''
+        let match: number = null;
+
+        // Search on company name
+        searchString = item.company.conformed_name.toLowerCase();
+        match = searchString.search(queryString);
+        if ( match != -1 ) { return true }
+
+        // Search on document type
+        searchString = item.documents
+          .map((a) => a.description )
+          .reduce((prev, curr) => prev + curr, '' )
+          .toLowerCase();
+        match = searchString.search(queryString);
+        if ( match != -1 ) { return true }
+      }
+    )
+    this.dataChange.next(filteredFilings);
   }
 
   private buildTableData(): void {
