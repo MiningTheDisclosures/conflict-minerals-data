@@ -169,7 +169,8 @@ def extract_urls_from_document_contents(message):
         doc_content = EdgarDocumentContent.objects.get(pk=pk)
         print(doc_content)
         if doc_content.content:
-            urls = extractor.find_urls(doc_content.content)
+            processed_content = doc_content.content.replace('.com.', '.com')
+            urls = extractor.find_urls(processed_content)
             unique_urls = toolz.unique(urls)
             doc_content.urls = list(unique_urls)
             doc_content.save()
