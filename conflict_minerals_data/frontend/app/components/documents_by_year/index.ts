@@ -119,6 +119,7 @@ class DocumentsData {
 
   filterTableData(query: string): void {
     let filteredFilings = this.filingsService.filings.filter(
+      // Filter by search
       (item, i, all) => {
         let queryString = query.toLowerCase();
         let searchString: string = ''
@@ -137,7 +138,13 @@ class DocumentsData {
         match = searchString.search(queryString);
         if ( match != -1 ) { return true }
       }
+    ).filter(
+      // Filter by year
+      (item, i, all) => {
+        return item.date.getFullYear() == this.year;
+      }
     )
+
     this.dataChange.next(filteredFilings);
   }
 
