@@ -77,7 +77,7 @@ class SDFilingAdmin(admin.ModelAdmin):
 
 class SDFilingDocumentAdmin(admin.ModelAdmin):
     list_display = ['id', 'description', 'filing']
-    list_filter = ['filing__company__conformed_name']
+    list_filter = ['doc_type', 'doc_format', 'filing__company__conformed_name']
     actions = [
         get_sd_filing_document_contents
     ]

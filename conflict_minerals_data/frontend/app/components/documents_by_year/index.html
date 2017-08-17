@@ -42,6 +42,9 @@
       <md-cell class="app-documents-cell" *cdkCellDef="let row"> 
         <div *ngFor="let doc of row.documents">
           <a href="{{ doc.doc_url }}">{{ doc.description || 'No description' }}</a>
+            <span class="app-documents-download-link" *ngIf="['htm', 'txt'].indexOf(doc.doc_format) > -1">
+            <a href="/filing-documents/{{ doc.id }}/pdf"><md-icon>picture_as_pdf</md-icon></a>
+            </span>
         </div>
       </md-cell>
     </ng-container>

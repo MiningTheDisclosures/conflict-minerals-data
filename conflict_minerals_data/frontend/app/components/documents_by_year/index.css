@@ -32,6 +32,15 @@
   flex-direction: column;
 }
 
+.app-documents-download-link .material-icons {
+  font-size: 10px;
+}
+.app-documents-download-link .mat-icon {
+  width: 12px;
+  height: 12px;
+}
+
+
 .mat-column-companyName { flex: 1 !important; }
 .mat-column-filingLink { flex: 1 !important; }
 .mat-column-filingDate { flex: 1 !important; }

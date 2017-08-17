@@ -25,6 +25,8 @@ urlpatterns = [
     url(r'^api/filing-documents/', edgar_views.EdgarSDFilingDocumentListView.as_view()),
     url(r'^api/user/', auth_views.UserView.as_view()),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    # Other
+    url(r'^filing-documents/(?P<pk>\d+)/pdf', edgar_views.EdgarSDFilingDocumentPDF.as_view()),
     # Admin
     url(r'^admin/', admin.site.urls),
 ]
