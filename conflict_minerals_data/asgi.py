@@ -7,7 +7,7 @@ https://blog.heroku.com/in_deep_with_django_channels_the_future_of_real_time_app
 https://channels.readthedocs.io/en/stable/
 """
 import os
-import channels.asgi
+from channels.asgi import get_channel_layer
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "conflict_minerals_data.settings")
-channel_layer = channels.asgi.get_channel_layer()
+channel_layer = get_channel_layer()
