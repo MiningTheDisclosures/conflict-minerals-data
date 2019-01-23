@@ -92,7 +92,7 @@ class DocumentsByYear {
   ngOnInit() {
     this.dataSource = new DocumentsSource(this.data, this.sort);
     this.companiesService.getResults({});
-    this.data.year = 2017;
+    this.data.year = 2019;
     this.data.filter = this.filter;
 
     // Add filtering
