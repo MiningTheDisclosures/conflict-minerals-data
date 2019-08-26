@@ -13,6 +13,6 @@ export declare class DjangoAPIService {
     protected initialize(): void;
     protected processResults(results: any[]): void;
     getResults(params: Params): void;
-    private getResponse(url, params);
-    private getParamsFromUrl(url);
+    private getResponse;
+    private getParamsFromUrl;
 }

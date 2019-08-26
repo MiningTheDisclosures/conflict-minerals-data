@@ -36,7 +36,7 @@ export declare class DocumentsData {
     readonly documents: IDocument[];
     year: number;
     filterTableData(query: string): void;
-    private buildTableData();
+    private buildTableData;
 }
 export declare class DocumentsSource extends DataSource<any> {
     private _data;
@@ -44,6 +44,6 @@ export declare class DocumentsSource extends DataSource<any> {
     constructor(_data: DocumentsData, _sort: MdSort);
     connect(): Observable<IFiling[]>;
     disconnect(): void;
-    private getSortedData();
-    private compareCompanyName(a, b);
+    private getSortedData;
+    private compareCompanyName;
 }
