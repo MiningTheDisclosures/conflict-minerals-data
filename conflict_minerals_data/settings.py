@@ -27,6 +27,7 @@ DEBUG = bool(os.environ.get('DEBUG', False))
 
 ALLOWED_HOSTS = ['localhost', 'conflict-minerals-data.herokuapp.com']
 
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 5000  # Allows for bulk delete
 
 # Application definition
 

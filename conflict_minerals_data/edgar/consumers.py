@@ -6,6 +6,7 @@ import toolz
 import feedparser
 import requests
 from urlextract import URLExtract
+from django.conf import settings
 
 from .models import (
     EdgarSearch,
@@ -41,21 +42,23 @@ def _get_edgar_feed_url(search_item):
 def _make_feed_request(search):
     url = _get_edgar_feed_url(search)
     feed = feedparser.parse(url)
-    EdgarSearch.objects.create(
-        description='SD Feed for populating company {0}'.format(search),
-        request=url,
-        response=json.dumps(feed, indent=4)
-    )
+    if settings.DEBUG is True:
+        EdgarSearch.objects.create(
+            description='SD Feed for populating company {0}'.format(search),
+            request=url,
+            response=json.dumps(feed, indent=4)
+        )
     return feed
 
 
 def _make_page_request(url):
     response = requests.get(url)
-    EdgarSearch.objects.create(
-        description='Get SD Page',
-        request=url,
-        response=response.content
-    )
+    if settings.DEBUG is True:
+        EdgarSearch.objects.create(
+            description='Get SD Page',
+            request=url,
+            response=response.content
+        )
     return response
 
 
