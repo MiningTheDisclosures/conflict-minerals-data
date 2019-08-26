@@ -2,6 +2,7 @@
 private.txt
 staticfiles
 .vscode
+test.sqlite
 
 # JS
 node_modules
