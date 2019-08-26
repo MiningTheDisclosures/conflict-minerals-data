@@ -40,7 +40,7 @@ class EdgarCompanyInfoBulkView(ListBulkCreateUpdateDestroyAPIView):
 
 
 class EdgarSDFilingFilter(filters.FilterSet):
-    year = django_filters.NumberFilter(name='date', lookup_expr='year')
+    year = django_filters.NumberFilter(field_name='date', lookup_expr='year')
     class Meta:
         model = EdgarSDFiling
         fields = '__all__'
@@ -53,7 +53,7 @@ class EdgarSDFilingListView(generics.ListAPIView):
 
 
 class EdgarSDFilingDocumentFilter(filters.FilterSet):
-    year = django_filters.NumberFilter(name='filing__date', lookup_expr='year')
+    year = django_filters.NumberFilter(field_name='filing__date', lookup_expr='year')
     class Meta:
         model = EdgarSDFilingDocument
         fields = '__all__'
