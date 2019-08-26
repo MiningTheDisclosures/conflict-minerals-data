@@ -152,7 +152,7 @@ def pull_sd_filing_documents(message):
 def get_sd_filing_document_contents(message):
     for pk in message.content.get('pks', []):
         doc = EdgarSDFilingDocument.objects.get(pk=pk)
-        print(doc)
+        # print(doc)
         if doc.doc_format in ['htm', 'html', 'txt']:
             # Not handling binary types for now
             _wait_random_time()
@@ -167,7 +167,7 @@ def extract_urls_from_document_contents(message):
     extractor = URLExtract()
     for pk in message.content.get('pks', []):
         doc_content = EdgarDocumentContent.objects.get(pk=pk)
-        print(doc_content)
+        # print(doc_content)
         if doc_content.content:
             processed_content = doc_content.content.replace('.com.', '.com')
             urls = extractor.find_urls(processed_content)
