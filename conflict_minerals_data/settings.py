@@ -174,3 +174,6 @@ CHANNEL_LAYERS = {
         "ROUTING": "conflict_minerals_data.routing.CHANNEL_ROUTING",
     },
 }
+
+# EDGAR - To stay free on heroku, we need to limit the data we're slurping in
+EDGAR_OLDEST_FILING_YEAR = 2017

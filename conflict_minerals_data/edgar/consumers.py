@@ -23,6 +23,7 @@ def _wait_random_time():
 
 
 def _get_edgar_feed_url(search_item):
+    oldest_year = settings.EDGAR_OLDEST_FILING_YEAR
     base_url = "https://www.sec.gov/cgi-bin/browse-edgar"
     params = {
         'action': 'getcompany',
@@ -32,6 +33,7 @@ def _get_edgar_feed_url(search_item):
         'start': 0,
         'count': 40,
         'output': 'atom',
+        'datea': f'{oldest_year}0101',
     }
     req = requests.Request('GET', base_url, params=params)
     prepped = req.prepare()

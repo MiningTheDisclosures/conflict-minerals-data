@@ -7,6 +7,7 @@ from django.db import models
 
 from bs4 import BeautifulSoup
 
+
 def compact(iter):
     return filter(None, iter)
 
@@ -83,7 +84,7 @@ class EdgarSDFiling(models.Model):
         Note the typo in the feed keys 'accession-nunber'
         """
         filing_type = entry.get('filing-type')
-        filing_types = dict(cls.FILING_TYPE_CHOICES).keys() # Pulls the first values from the pairs into a list
+        filing_types = dict(cls.FILING_TYPE_CHOICES).keys()  # Pulls the first values from the pairs into a list
         assert filing_type in filing_types, 'Filing type was {0}. Company: {2}. Entry: {1}'.format(
             filing_type, entry, company
         )
@@ -119,7 +120,7 @@ class EdgarSDFiling(models.Model):
         for i, header in enumerate(headers):
             assert header.text == header_values[i]
         # Return Table Rows (but not header row)
-        return table.findChildren('tr')[1:]  
+        return table.findChildren('tr')[1:]
 
 
 class EdgarSDFilingDocument(models.Model):
@@ -177,7 +178,7 @@ class EdgarDocumentContent(models.Model):
     text = models.TextField(blank=True)
     # Stuff we store about the content
     urls = ArrayField(
-        models.TextField(blank=True), 
+        models.TextField(blank=True),
         blank=True, null=True,
         help_text='URL we parsed out of the content'
     )
